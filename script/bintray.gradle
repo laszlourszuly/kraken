@@ -1,0 +1,22 @@
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['kraken']
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'atlantis'
+        licenses = ['Apache-2.0']
+        websiteUrl = 'https://github.com/echsylon/kraken/wiki'
+        issueTrackerUrl = 'https://github.com/echsylon/kraken/issues'
+        vcsUrl = 'https://github.com/echsylon/kraken.git'
+        githubRepo = 'echsylon/kraken'
+
+        version {
+            name = android.defaultConfig.versionName
+            vcsTag = "v${android.defaultConfig.versionName}"
+            released = new Date()
+        }
+    }
+}

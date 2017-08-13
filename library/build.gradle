@@ -1,0 +1,46 @@
+// 3rd party plugins definition
+plugins {
+    id 'com.github.kt3k.coveralls' version '2.5.0-x'
+    id 'me.tatarka.retrolambda' version '3.4.0'
+    id 'com.jfrog.bintray' version '1.7.3'
+}
+
+apply plugin: 'com.android.library'
+apply from: "${rootProject.rootDir}/script/version.gradle"
+
+retrolambda {
+    bytecodeVersion 51
+}
+
+// Android configuration
+android {
+    compileSdkVersion 26
+    buildToolsVersion '25.0.3'
+    defaultPublishConfig 'release'
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode prepareVersionCode()
+        versionName prepareVersionName()
+        project.archivesBaseName = 'kraken-sdk'
+        project.version = android.defaultConfig.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.echsylon.blocks:network:2.2.0'
+    compile 'com.annimon:stream:1.1.7' // Replace once Android supports Java 8
+}

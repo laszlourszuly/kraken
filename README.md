@@ -4,7 +4,14 @@
 This third party library aims to wrap the official [Kraken Exchange API](https://www.kraken.com/help/api) and offer convenient means of asynchronously querying it in a way that's suitable for the Android platform.
 
 # How to use it
-This client will abstract away any and all queue and asynchronous http request handling for you. It will provide a callback interface to which you can attach any (optional) listeners:
+
+You simply add the below dependency to your Android project:
+
+```groovy
+compile 'com.echsylon.kraken:kraken:0.0.2'
+```
+
+You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. It will provide a callback interface to which you can attach any (optional) listeners:
 
 ```Java
 Kraken krakenClient = new Kraken();

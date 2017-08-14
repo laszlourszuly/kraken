@@ -26,6 +26,7 @@ import com.echsylon.kraken.dto.TradeVolume;
 import com.echsylon.kraken.exception.KrakenRequestException;
 import com.google.gson.TypeAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,29 +49,55 @@ import static com.echsylon.kraken.Utils.sha256;
 public class Kraken {
     private static final String BASE_URL = "https://api.kraken.com";
 
-    private static String key;
-    private static byte[] secret;
-
     /**
-     * Initiates the Kraken SDK.
+     * Initiates the Kraken API Client local cache metrics.
      *
-     * @param apiKey    The Kraken API key for the account.
-     * @param apiSecret The corresponding API secret.
+     * @param cacheDirectory The location on disk to save the cache in.
+     * @param cacheSizeBytes The max number of bytes to allocate to caching.
      */
-    public static void setup(final String apiKey, final String apiSecret) {
-        Kraken.key = apiKey;
-        Kraken.secret = base64Decode(apiSecret);
+    public static void setup(final File cacheDirectory, final int cacheSizeBytes) {
+        OkHttpNetworkClient.settings(
+                new OkHttpNetworkClient.Settings(
+                        cacheDirectory,
+                        cacheSizeBytes,
+                        false,          // Follow http -> http redirects
+                        false));        // Follow https -> http redirects
     }
 
+
+    private String key;
+    private byte[] secret;
+
+    /**
+     * Initializes an instance of the Kraken API Client that's only capable of
+     * accessing the public Kraken API.
+     */
+    public Kraken() {
+        this(null, null);
+    }
+
+    /**
+     * Initializes an instance of the Kraken API Client that's capable of
+     * executing private API requests (given that the provided credentials are
+     * valid).
+     *
+     * @param apiKey    The Kraken API key for the targeted account.
+     * @param apiSecret The corresponding key secret.
+     */
+    public Kraken(String apiKey, String apiSecret) {
+        key = apiKey;
+        secret = base64Decode(apiSecret);
+    }
 
     /**
      * Retrieves the current server time. This is to aid in approximating the
      * skew time between the server and client.
      *
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<Time> getServerTime() {
-        return enqueue("/0/public/Time", "get");
+    public KrakenRequestBuilder<Time> getServerTime() {
+        return getRequestBuilder("/0/public/Time", "get");
     }
 
     /**
@@ -80,12 +107,13 @@ public class Kraken {
      * @param info       The level of information to get.
      * @param assetClass The type of the asset.
      * @param assets     The assets to get info on.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<List<Asset>> getAssetInfo(final String info,
-                                             final String assetClass,
-                                             final String... assets) {
-        return enqueue(
+    public KrakenRequestBuilder<List<Asset>> getAssetInfo(final String info,
+                                                          final String assetClass,
+                                                          final String... assets) {
+        return getRequestBuilder(
                 new AssetTypeAdapter(),
                 "/0/public/Assets",
                 "get",
@@ -103,11 +131,12 @@ public class Kraken {
      * @param info  The level of information to get. Options: "info" (all,
      *              default), "leverage", "fees", "margin"
      * @param pairs The currencies to fetch information for.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<AssetPair> getTradableAssetPairs(final String info,
-                                                    final String... pairs) {
-        return enqueue(
+    public KrakenRequestBuilder<AssetPair> getTradableAssetPairs(final String info,
+                                                                 final String... pairs) {
+        return getRequestBuilder(
                 "/0/public/AssetPairs",
                 "get",
                 "info", info,
@@ -119,10 +148,11 @@ public class Kraken {
      *
      * @param pairs The asset pairs to fetch information on. At least one must
      *              be given or the server will fail.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache *
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<Map<String, Ticker>> getTickerInformation(final String... pairs) {
-        return enqueue(
+    public KrakenRequestBuilder<Map<String, Ticker>> getTickerInformation(final String... pairs) {
+        return getRequestBuilder(
                 new TickerTypeAdapter(),
                 "/0/public/Ticker",
                 "get",
@@ -139,12 +169,13 @@ public class Kraken {
      *                 21600
      * @param since    The exclusive epoch describing how far back in time to
      *                 get OHLC data from.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Ohlc>> getOhlcData(final String pair,
-                                                 final Integer interval,
-                                                 final String since) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Ohlc>> getOhlcData(final String pair,
+                                                              final Integer interval,
+                                                              final String since) {
+        return getRequestBuilder(
                 new OhlcTypeAdapter(),
                 "/0/public/OHLC",
                 "get",
@@ -158,10 +189,11 @@ public class Kraken {
      *
      * @param pair  The asset pair to get market depth for.
      * @param count The maximum number of asks or bids. Optional.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<Depth> getOrderBook(final String pair, final Integer count) {
-        return enqueue(
+    public KrakenRequestBuilder<Depth> getOrderBook(final String pair, final Integer count) {
+        return getRequestBuilder(
                 new DepthTypeAdapter(),
                 "/0/public/Depth",
                 "get",
@@ -174,11 +206,12 @@ public class Kraken {
      *
      * @param pair  The asset pair to get data for.
      * @param since The trade id of the previous poll. Optional. Exclusive.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Trade>> getRecentTrades(final String pair,
-                                                      final String since) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Trade>> getRecentTrades(final String pair,
+                                                                   final String since) {
+        return getRequestBuilder(
                 new TradeTypeAdapter(),
                 "/0/public/Trades",
                 "get",
@@ -191,11 +224,12 @@ public class Kraken {
      *
      * @param pair  The asset pair to get information for.
      * @param since The spread id of the previous poll. Optional. Inclusive.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Spread>> getRecentSpreadData(final String pair,
-                                                           final String since) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Spread>> getRecentSpreadData(final String pair,
+                                                                        final String since) {
+        return getRequestBuilder(
                 new SpreadTypeAdapter(),
                 "/0/public/Spread",
                 "get",
@@ -208,10 +242,11 @@ public class Kraken {
     /**
      * Retrieves the account balance for all associated assets.
      *
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<Map<String, String>> getAccountBalance() {
-        return enqueue("/0/private/Balance", "post");
+    public KrakenRequestBuilder<Map<String, String>> getAccountBalance() {
+        return getRequestBuilder("/0/private/Balance", "post");
     }
 
     /**
@@ -220,11 +255,12 @@ public class Kraken {
      * @param assetClass The type of asset. Defaults to "currency".
      * @param baseAsset  The base asset to use when determining the balance.
      *                   Defaults to "ZUSD"
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<TradeBalance> getTradeBalance(final String assetClass,
-                                                 final String baseAsset) {
-        return enqueue(
+    public KrakenRequestBuilder<TradeBalance> getTradeBalance(final String assetClass,
+                                                              final String baseAsset) {
+        return getRequestBuilder(
                 "/0/private/TradeBalance",
                 "post",
                 "aclass", assetClass,
@@ -236,11 +272,12 @@ public class Kraken {
      *
      * @param includeTrades   Whether to include trades. Defaults to false.
      * @param userReferenceId Restrict results to given user reference id.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Order>> getOpenOrders(final Boolean includeTrades,
-                                                    final String userReferenceId) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Order>> getOpenOrders(final Boolean includeTrades,
+                                                                 final String userReferenceId) {
+        return getRequestBuilder(
                 new OrderTypeAdapter(),
                 "/0/private/OpenOrders",
                 "post",
@@ -260,15 +297,16 @@ public class Kraken {
      * @param offset          Result offset.
      * @param closeTime       Which time to use. Options: "open", "close",
      *                        "both" (default).
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Order>> getClosedOrders(final Boolean includeTrades,
-                                                      final String userReferenceId,
-                                                      final String start,
-                                                      final String end,
-                                                      final Integer offset,
-                                                      final String closeTime) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Order>> getClosedOrders(final Boolean includeTrades,
+                                                                   final String userReferenceId,
+                                                                   final String start,
+                                                                   final String end,
+                                                                   final Integer offset,
+                                                                   final String closeTime) {
+        return getRequestBuilder(
                 new OrderTypeAdapter(),
                 "/0/private/ClosedOrders",
                 "post",
@@ -287,12 +325,13 @@ public class Kraken {
      * @param userReferenceId Restrict results to user reference id. Optional.
      * @param transactionId   Transaction ids of the orders to get info about.
      *                        20 max, at least one is required.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Order>> queryOrdersInfo(final Boolean includeTrades,
-                                                      final String userReferenceId,
-                                                      final String... transactionId) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Order>> queryOrdersInfo(final Boolean includeTrades,
+                                                                   final String userReferenceId,
+                                                                   final String... transactionId) {
+        return getRequestBuilder(
                 new OrderTypeAdapter(),
                 "/0/private/QueryOrders",
                 "post",
@@ -313,14 +352,15 @@ public class Kraken {
      * @param end           Ending time or trade transaction id of results.
      *                      Optional. Inclusive.
      * @param offset        Result offset.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<TradeHistory>> getTradesHistory(final String type,
-                                                              final Boolean includeTrades,
-                                                              final String start,
-                                                              final String end,
-                                                              final Integer offset) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<TradeHistory>> getTradesHistory(final String type,
+                                                                           final Boolean includeTrades,
+                                                                           final String start,
+                                                                           final String end,
+                                                                           final Integer offset) {
+        return getRequestBuilder(
                 new TradeHistoryTypeAdapter(),
                 "/0/private/TradesHistory",
                 "post",
@@ -338,11 +378,12 @@ public class Kraken {
      *                              position. Defaults to false.
      * @param transactionId         Transaction ids of the orders to get info
      *                              about. 20 max, at least one is required.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<TradeHistory>> queryTradesInfo(final Boolean includePositionTrades,
-                                                             final String... transactionId) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<TradeHistory>> queryTradesInfo(final Boolean includePositionTrades,
+                                                                          final String... transactionId) {
+        return getRequestBuilder(
                 new TradeHistoryTypeAdapter(),
                 "/0/private/QueryTrades",
                 "post",
@@ -356,11 +397,12 @@ public class Kraken {
      * @param performCalculations Whether to include profit/loss calculations.
      *                            Defaults to false.
      * @param transactionId       Transaction ids to restrict the result to.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Position>> getOpenPositions(final Boolean performCalculations,
-                                                          final String... transactionId) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Position>> getOpenPositions(final Boolean performCalculations,
+                                                                       final String... transactionId) {
+        return getRequestBuilder(
                 new PositionTypeAdapter(),
                 "/0/private/OpenPositions",
                 "post",
@@ -380,15 +422,16 @@ public class Kraken {
      *                   Inclusive.
      * @param offset     Result offset.
      * @param asset      Assets to restrict result to. Defaults to all.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Ledger>> getLedgersInfo(final String assetClass,
-                                                      final String ledgerType,
-                                                      final String start,
-                                                      final String end,
-                                                      final Integer offset,
-                                                      final String... asset) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Ledger>> getLedgersInfo(final String assetClass,
+                                                                   final String ledgerType,
+                                                                   final String start,
+                                                                   final String end,
+                                                                   final Integer offset,
+                                                                   final String... asset) {
+        return getRequestBuilder(
                 new LedgerTypeAdapter(),
                 "/0/private/Ledgers",
                 "post",
@@ -404,10 +447,11 @@ public class Kraken {
      * Retrieves information about any particular ledger(s).
      *
      * @param ledgerId Id of ledgers to get. 20 max, at least one is required.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<KrakenList<Ledger>> queryLedgers(final String... ledgerId) {
-        return enqueue(
+    public KrakenRequestBuilder<KrakenList<Ledger>> queryLedgers(final String... ledgerId) {
+        return getRequestBuilder(
                 new LedgerTypeAdapter(),
                 "/0/private/QueryLedgers",
                 "post",
@@ -419,11 +463,12 @@ public class Kraken {
      *
      * @param includeFeeInfo   Whether to include fee info. Defaults to false.
      * @param feeInfoAssetPair The fee info asset pairs. Defaults to "ZUSD".
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<TradeVolume> getTradeVolume(final Boolean includeFeeInfo,
-                                               final String... feeInfoAssetPair) {
-        return enqueue(
+    public KrakenRequestBuilder<TradeVolume> getTradeVolume(final Boolean includeFeeInfo,
+                                                            final String... feeInfoAssetPair) {
+        return getRequestBuilder(
                 "/0/private/TradeVolume",
                 "post",
                 "fee-info", asString(includeFeeInfo),
@@ -459,24 +504,25 @@ public class Kraken {
      * @param validateOnly        Validate only, do not submit order. Optional.
      * @param flags               Order flags. Options: "viqc", "fcib", "fciq",
      *                            "nompp", "post". Optional.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<OrderReceipt> addStandardOrder(final String pair,
-                                                  final String type,
-                                                  final String orderType,
-                                                  final String price,
-                                                  final String secondaryPrice,
-                                                  final String volume,
-                                                  final String leverage,
-                                                  final String startTime,
-                                                  final String expireTime,
-                                                  final String userReference,
-                                                  final String closeOrderType,
-                                                  final String closePrice,
-                                                  final String closeSecondaryPrice,
-                                                  final Boolean validateOnly,
-                                                  final String... flags) {
-        return enqueue(
+    public KrakenRequestBuilder<OrderReceipt> addStandardOrder(final String pair,
+                                                               final String type,
+                                                               final String orderType,
+                                                               final String price,
+                                                               final String secondaryPrice,
+                                                               final String volume,
+                                                               final String leverage,
+                                                               final String startTime,
+                                                               final String expireTime,
+                                                               final String userReference,
+                                                               final String closeOrderType,
+                                                               final String closePrice,
+                                                               final String closeSecondaryPrice,
+                                                               final Boolean validateOnly,
+                                                               final String... flags) {
+        return getRequestBuilder(
                 "/0/private/AddOrder",
                 "post",
                 "pair", pair,
@@ -500,10 +546,11 @@ public class Kraken {
      * Cancels an open order.
      *
      * @param id The transaction or user reference id of the order(s) to close.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    public Request<OrderCancelState> cancelOpenOrder(final String id) {
-        return enqueue("/0/private/CancelOrder", "post", "txid", id);
+    public KrakenRequestBuilder<OrderCancelState> cancelOpenOrder(final String id) {
+        return getRequestBuilder("/0/private/CancelOrder", "post", "txid", id);
     }
 
     // Private boilerplate
@@ -517,13 +564,13 @@ public class Kraken {
      *               positions are treated as keys and odd positions as values.
      *               Any trailing keys will be ignored.
      * @param <V>    The type definition of the result Java class.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    private <V> Request<V> enqueue(final String path,
-                                   final String method,
-                                   final String... data) {
-
-        return enqueue(null, path, method, data);
+    private <V> KrakenRequestBuilder<V> getRequestBuilder(final String path,
+                                                          final String method,
+                                                          final String... data) {
+        return getRequestBuilder(null, path, method, data);
     }
 
     /**
@@ -536,50 +583,82 @@ public class Kraken {
      *                    positions are treated as keys and odd positions as
      *                    values. Any trailing keys will be ignored.
      * @param <V>         The type definition of the result Java class.
-     * @return A request object to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
      */
-    private <V> Request<V> enqueue(final TypeAdapter<V> typeAdapter,
-                                   final String path,
-                                   final String method,
-                                   final String... data) {
+    private <V> KrakenRequestBuilder<V> getRequestBuilder(final TypeAdapter<V> typeAdapter,
+                                                          final String path,
+                                                          final String method,
+                                                          final String... data) {
+        return new KrakenRequestBuilder<V>() {
+            @Override
+            public Request<V> enqueue() {
+                return new DefaultRequest<>(() -> {
+                    // Perform coarse API key+secret validation
+                    if (isPrivateRequest(path) && (key == null || secret == null))
+                        throw new IllegalStateException(
+                                "An API key and secret is required for this request");
 
-        return new DefaultRequest<>(() -> {
-            // Prepare the Kraken decoration details
-            String nonce = generateNonce(path);
-            String message = generateMessage(nonce, data);
-            List<NetworkClient.Header> headers = generateSignature(path, nonce, message);
+                    // Everything's peachy: prepare the Kraken request decoration
+                    String nonce = generateNonce(path);
+                    String message = composeMessage(nonce, data);
+                    List<NetworkClient.Header> headers = generateSignature(path, nonce, message);
 
-            // Prepare the HTTP metrics depending on "get" or "post" method.
-            boolean isGetMethod = "get".equals(method.toLowerCase());
-            String uri = isGetMethod ?
-                    String.format("%s%s?%s", BASE_URL, path, message) :
-                    String.format("%s%s", BASE_URL, path);
-            String mime = isGetMethod ? null : "application/x-www-form-urlencoded";
-            byte[] payload = isGetMethod ? null : asBytes(message);
+                    // Prepare the HTTP metrics depending on "get" or "post" method.
+                    boolean isGetMethod = "get".equals(method.toLowerCase());
+                    byte[] payload = isGetMethod ? null : asBytes(message);
+                    String mime = isGetMethod ? null : "application/x-www-form-urlencoded";
+                    String uri = isGetMethod ?
+                            String.format("%s%s?%s", BASE_URL, path, message) :
+                            String.format("%s%s", BASE_URL, path);
 
-            // Perform the actual request
-            NetworkClient networkClient = new OkHttpNetworkClient();
-            byte[] responseBytes = networkClient.execute(uri, method, headers, payload, mime);
-            String responseJson = asString(responseBytes);
+                    // Perform the actual request (the network client stems from
+                    // CachedRequestBuilder (extended by KrakenRequestBuilder).
+                    byte[] responseBytes = okHttpNetworkClient.execute(uri, method, headers, payload, mime);
+                    String responseJson = asString(responseBytes);
 
-            // Parse the response JSON
-            GsonJsonParser parser = new GsonJsonParser();
-            if (typeAdapter != null)
-                parser.gsonBuilder.registerTypeAdapter(
-                        KrakenResponse.class,
-                        new KrakenTypeAdapter<>(typeAdapter));
+                    // Parse the response JSON
+                    GsonJsonParser parser = new GsonJsonParser();
+                    if (typeAdapter != null)
+                        parser.gsonBuilder.registerTypeAdapter(
+                                KrakenResponse.class,
+                                new KrakenTypeAdapter<>(typeAdapter));
 
-            KrakenResponse<V> response = parser.fromJson(responseJson);
+                    KrakenResponse<V> response = parser.fromJson(responseJson);
 
-            // Throw exception if has error (to trigger error callbacks)...
-            if (response.error.length > 0)
-                throw new KrakenRequestException(response.error);
+                    // Throw exception if has error (to trigger error callbacks)...
+                    if (response.error.length > 0)
+                        throw new KrakenRequestException(response.error);
 
-            // ...or deliver result.
-            return response.result;
-        });
+                    // ...or deliver result.
+                    return response.result;
+                });
+            }
+        };
     }
 
+    /**
+     * Checks whether a given url is targeting a private endpoint in the Kraken
+     * API.
+     *
+     * @param url The url to check.
+     * @return Boolean true if targeting a private endpoint, false otherwise.
+     */
+    private boolean isPrivateRequest(final String url) {
+        return url.contains("/private/");
+    }
+
+    /**
+     * Generates a nonce for private requests, or null for public requests.
+     *
+     * @return The nonce or null.
+     */
+    private String generateNonce(final String url) {
+        return url != null && isPrivateRequest(url) ?
+                String.format("%-16s", System.currentTimeMillis())
+                        .replace(" ", "0") :
+                null;
+    }
 
     /**
      * Constructs an encoded request message that Kraken will understand. See
@@ -593,7 +672,7 @@ public class Kraken {
      *              ignored.
      * @return The prepared and encoded Kraken message.
      */
-    private String generateMessage(final String nonce, final String... data) {
+    private String composeMessage(final String nonce, final String... data) {
         Uri.Builder builder = new Uri.Builder();
 
         if (nonce != null)
@@ -605,18 +684,6 @@ public class Kraken {
                     builder.appendQueryParameter(data[i], data[i + 1]);
 
         return builder.build().getEncodedQuery();
-    }
-
-    /**
-     * Generates a nonce for private requests, or null for public requests.
-     *
-     * @return The nonce or null.
-     */
-    private String generateNonce(final String url) {
-        return url != null && url.contains("/private/") ?
-                String.format("%-16s", System.currentTimeMillis())
-                        .replace(" ", "0") :
-                null;
     }
 
     /**
@@ -632,6 +699,9 @@ public class Kraken {
     private List<NetworkClient.Header> generateSignature(final String path,
                                                          final String nonce,
                                                          final String message) {
+        if (key == null || secret == null)
+            return null;
+
         if (path == null)
             return null;
 

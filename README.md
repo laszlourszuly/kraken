@@ -7,13 +7,13 @@ This third party library aims to wrap the official [Kraken Exchange API](https:/
 
 You simply add the below dependency to your Android project:
 
-```groovy
+```javascript
 compile 'com.echsylon.kraken:kraken:0.0.2'
 ```
 
 You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. It will provide a callback interface to which you can attach any (optional) listeners:
 
-```Java
+```java
 Kraken krakenClient = new Kraken();
 krakenClient
         .getAssetInfo("info", "currency") // Get all available info on all currencies
@@ -40,13 +40,13 @@ You can attach [0..n] listeners to a request and they will all be called on the 
 # Client side caching
 This client offers means of caching responses from the server. Some responses are safe to cache (e.g. supported assets and assetpairs) while others are directly unwise to (like account balances etc). If you want to cache content you have to do a one time configuration of the Kraken client telling where and how much to cache:
 
-```Java
+```java
 Kraken.setup(context.getCacheDir(), 4 * 1024 * 1024); // 4MB cache
 ```
 
 The actual cache control is exposed on a per-request level and is offered in two variants. One "soft-cache" which means that the provided cache control will be applied only if the server doesn't itself provide any specific cache control:
 
-```Java
+```java
 krakenClient
         .getAssetInfo("info", "currency") // Get all available info on all currencies
         .softCache(86400)                 // Cache content for a day
@@ -57,7 +57,7 @@ krakenClient
 
 Similarly there is a "hard-cache" that will override any server provided cache control directives:
 
-```Java
+```java
 krakenClient
         .getAssetInfo("info", "currency") // Get all available info on all currencies
         .hardCache(86400)                 // Cache content for a day
@@ -69,7 +69,7 @@ krakenClient
 # Public vs. Private requests
 You can use the Kraken client in a "public" mode if you only want to request public end points. In such case you don't need to provide an API key and secret. The above examples show how this is done. If you want to access private data. You need to configure an API key (see Kraken documentation on how to do this) and instantiate the Kraken client accordingly:
 
-```Java
+```java
 Kraken privateKrakenClient = new Kraken("MyApiKey", "MyApiKeySecret");
 privateKrakenClient
         .getAccountBalance()

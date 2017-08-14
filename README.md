@@ -4,8 +4,7 @@
 This third party library aims to wrap the official [Kraken Exchange API](https://www.kraken.com/help/api) and offer convenient means of asynchronously querying it in a way that's suitable for the Android platform.
 
 # How to use it
-
-You simply add the below dependency to your Android project:
+You simply add the below dependency to your Android project (preferrably picking the latest version):
 
 ```javascript
 compile 'com.echsylon.kraken:kraken:0.0.2'

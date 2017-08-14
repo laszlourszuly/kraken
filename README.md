@@ -48,7 +48,7 @@ The actual cache control is exposed on a per-request level and is offered in two
 ```java
 krakenClient
         .getAssetInfo("info", "currency") // Get all available info on all currencies
-        .softCache(86400)                 // Cache content for a day
+        .softCache(86400)                 // Cache for a day if server doesn't say otherwise
         .maxStale(3600)                   // Serve expired cache content for an hour if no conn
         .enqueue()
         ...
@@ -59,7 +59,7 @@ Similarly there is a "hard-cache" that will override any server provided cache c
 ```java
 krakenClient
         .getAssetInfo("info", "currency") // Get all available info on all currencies
-        .hardCache(86400)                 // Cache content for a day
+        .hardCache(86400)                 // Cache for a day regardless what the server says
         .maxStale(3600)                   // Serve expired cache content for an hour if no conn
         .enqueue()
         ...

@@ -5,7 +5,7 @@ package com.echsylon.kraken.dto;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public final class OrderCancelState {
+public final class OrderCancelReceipt {
     public Integer count;
     public Boolean pending;
 }

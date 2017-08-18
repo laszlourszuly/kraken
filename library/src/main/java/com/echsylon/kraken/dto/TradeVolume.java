@@ -12,23 +12,37 @@ import java.util.Map;
 public final class TradeVolume {
 
     public static final class FeeInfo {
+
+        @SerializedName("fee")
         public String fee;
+
         @SerializedName("minfee")
         public String minFee;
+
         @SerializedName("maxfee")
         public String maxFee;
+
         @SerializedName("nextfee")
         public String nextFee;
+
         @SerializedName("nextvolume")
         public String nextVolume;
+
         @SerializedName("tiervolume")
         public String tierVolume;
+
     }
 
-
+    @SerializedName("currency")
     public String currency;
+
+    @SerializedName("volume")
     public String volume;
+
+    @SerializedName("fees")
     public Map<String, FeeInfo> fees;
+
     @SerializedName("fees_maker")
     public Map<String, FeeInfo> feesMaker;
+
 }

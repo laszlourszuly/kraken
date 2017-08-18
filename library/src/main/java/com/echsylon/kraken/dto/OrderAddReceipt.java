@@ -7,15 +7,22 @@ import com.google.gson.annotations.SerializedName;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public final class OrderReceipt {
+public final class OrderAddReceipt {
 
     public static final class Description {
+
+        @SerializedName("order")
         public String order;
+
+        @SerializedName("close")
         public String close;
+
     }
 
 
+    @SerializedName("descr")
     public Description descr;
+
     @SerializedName("txid")
     public String[] txId;
 

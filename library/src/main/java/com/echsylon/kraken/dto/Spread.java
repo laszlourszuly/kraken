@@ -6,7 +6,9 @@ package com.echsylon.kraken.dto;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Spread {
+
     public Long time;
     public String bid;
     public String ask;
+
 }

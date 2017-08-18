@@ -6,10 +6,12 @@ package com.echsylon.kraken.dto;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Trade {
+
     public String price;
     public String volume;
     public Double time;
     public String buyOrSell;
     public String marketOrLimit;
     public String misc;
+
 }

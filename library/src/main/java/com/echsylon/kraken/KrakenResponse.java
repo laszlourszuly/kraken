@@ -1,5 +1,7 @@
 package com.echsylon.kraken;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * INTERNAL USE ONLY!
  * <p>
@@ -11,14 +13,10 @@ package com.echsylon.kraken;
  */
 class KrakenResponse<T> {
 
-    /**
-     * The error messages from Kraken, or null if everything went well.
-     */
+    @SerializedName("error")
     String[] error;
 
-    /**
-     * The result data structure, or null if something went wrong.
-     */
+    @SerializedName("result")
     T result;
 
 }

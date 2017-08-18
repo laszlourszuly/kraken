@@ -184,7 +184,7 @@ final class Utils {
      */
     static String base64Encode(byte[] bytes) {
         return bytes != null ?
-                Base64.encodeToString(bytes, Base64.DEFAULT) :
+                Base64.encodeToString(bytes, Base64.NO_WRAP) :
                 null;
     }
 

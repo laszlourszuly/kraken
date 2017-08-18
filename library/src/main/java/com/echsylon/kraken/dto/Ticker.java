@@ -4,30 +4,34 @@ package com.echsylon.kraken.dto;
  * For technical details on the API see the online documentation:
  * https://www.kraken.com/help/api
  */
+@SuppressWarnings("WeakerAccess")
 public final class Ticker {
 
-    @SuppressWarnings("WeakerAccess")
-    public static final class Price<T> {
-        public T price;
-        public T lotVolume;
-        public T wholeLotVolume;
+    public static final class Price {
+        public String price;
+        public String lotVolume;
+        public String wholeLotVolume;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public static final class Span<T> {
-        public T today;
-        public T last24Hours;
+    public static final class Trade {
+        public String price;
+        public String lotVolume;
+    }
+
+    public static final class Span {
+        public String today;
+        public String last24Hours;
     }
 
 
-    public Price<String> a;
-    public Price<String> b;
-    public Price<String> c;
-    public Span<String> v;
-    public Span<String> p;
-    public Span<Integer> t;
-    public Span<String> l;
-    public Span<String> h;
+    public Price a;
+    public Price b;
+    public Trade c;
+    public Span v;
+    public Span p;
+    public Span t;
+    public Span l;
+    public Span h;
     public String o;
 }
 

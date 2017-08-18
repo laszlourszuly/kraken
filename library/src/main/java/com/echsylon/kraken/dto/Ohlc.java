@@ -6,13 +6,15 @@ package com.echsylon.kraken.dto;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Ohlc {
+
     public Long time;
     public String open;
     public String high;
     public String low;
     public String close;
-    public String vwap;
+    public String vwap;     // volume weighted average price?
     public String volume;
     public Integer count;
+
 }
 

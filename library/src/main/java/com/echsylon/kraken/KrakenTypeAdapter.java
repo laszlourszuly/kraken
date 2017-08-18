@@ -50,7 +50,7 @@ final class KrakenTypeAdapter<T> extends TypeAdapter<KrakenResponse<T>> {
                     break;
                 case "result":
                     if (delegate != null)
-                        delegate.read(in);
+                        response.result = delegate.read(in);
                     else
                         in.skipValue();
                     break;

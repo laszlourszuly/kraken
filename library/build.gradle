@@ -41,8 +41,8 @@ android {
 }
 
 dependencies {
-    compile 'com.echsylon.blocks:network:2.2.0'
     compile 'com.annimon:stream:1.1.7' // Replace once Android supports Java 8
+    compile 'com.echsylon.blocks:network:2.2.1'
 }
 
 // Custom archive build configurations

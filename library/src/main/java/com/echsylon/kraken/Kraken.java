@@ -622,7 +622,7 @@ public class Kraken {
                     boolean isGetMethod = "get".equals(method.toLowerCase());
                     byte[] payload = isGetMethod ? null : asBytes(message);
                     String mime = isGetMethod ? null : "application/x-www-form-urlencoded";
-                    String uri = isGetMethod ?
+                    String uri = isGetMethod && message != null ?
                             String.format("%s%s?%s", baseUrl, path, message) :
                             String.format("%s%s", baseUrl, path);
 

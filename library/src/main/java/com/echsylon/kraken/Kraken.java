@@ -65,8 +65,19 @@ public class Kraken {
     }
 
 
+    private String baseUrl;
     private String key;
     private byte[] secret;
+
+    /**
+     * Allows test cases to redirect requests to a test environment. Protected
+     * to keep false assumptions away.
+     *
+     * @param baseUrl The base url to the test environment.
+     */
+    Kraken(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     /**
      * Initializes an instance of the Kraken API Client that's only capable of
@@ -85,6 +96,7 @@ public class Kraken {
      * @param apiSecret The corresponding key secret.
      */
     public Kraken(String apiKey, String apiSecret) {
+        baseUrl = BASE_URL;
         key = apiKey;
         secret = base64Decode(apiSecret);
     }
@@ -609,8 +621,8 @@ public class Kraken {
                     byte[] payload = isGetMethod ? null : asBytes(message);
                     String mime = isGetMethod ? null : "application/x-www-form-urlencoded";
                     String uri = isGetMethod ?
-                            String.format("%s%s?%s", BASE_URL, path, message) :
-                            String.format("%s%s", BASE_URL, path);
+                            String.format("%s%s?%s", baseUrl, path, message) :
+                            String.format("%s%s", baseUrl, path);
 
                     // Perform the actual request (the network client stems from
                     // CachedRequestBuilder (extended by KrakenRequestBuilder).

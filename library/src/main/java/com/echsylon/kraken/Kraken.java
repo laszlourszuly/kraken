@@ -148,9 +148,10 @@ public class Kraken {
      * @return A request builder object to configure any client side cache
      * metrics with and to attach any callback implementations to.
      */
-    public KrakenRequestBuilder<AssetPair> getTradableAssetPairs(final String info,
-                                                                 final String... pairs) {
+    public KrakenRequestBuilder<List<AssetPair>> getTradableAssetPairs(final String info,
+                                                                       final String... pairs) {
         return getRequestBuilder(
+                new AssetPairTypeAdapter(),
                 "/0/public/AssetPairs",
                 "get",
                 "info", info,

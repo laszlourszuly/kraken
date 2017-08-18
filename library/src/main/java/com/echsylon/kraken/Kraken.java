@@ -639,7 +639,7 @@ public class Kraken {
                             .fromJson(responseJson, type);
 
                     // Throw exception if has error (to trigger error callbacks)...
-                    if (response.error.length > 0)
+                    if (response.error != null)
                         throw new KrakenRequestException(response.error);
 
                     // ...or deliver result.

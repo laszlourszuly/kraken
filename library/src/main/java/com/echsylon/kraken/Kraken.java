@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.blocks.callback.Request;
-import com.echsylon.blocks.network.GsonJsonParser;
 import com.echsylon.blocks.network.NetworkClient;
 import com.echsylon.blocks.network.OkHttpNetworkClient;
 import com.echsylon.kraken.dto.Asset;
@@ -24,9 +23,12 @@ import com.echsylon.kraken.dto.TradeBalance;
 import com.echsylon.kraken.dto.TradeHistory;
 import com.echsylon.kraken.dto.TradeVolume;
 import com.echsylon.kraken.exception.KrakenRequestException;
+import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -630,13 +632,11 @@ public class Kraken {
                     String responseJson = asString(responseBytes);
 
                     // Parse the response JSON
-                    GsonJsonParser parser = new GsonJsonParser();
-                    if (typeAdapter != null)
-                        parser.gsonBuilder.registerTypeAdapter(
-                                KrakenResponse.class,
-                                new KrakenTypeAdapter<>(typeAdapter));
-
-                    KrakenResponse<V> response = parser.fromJson(responseJson);
+                    Type type = new TypeToken<KrakenResponse<V>>() {}.getType();
+                    KrakenResponse<V> response = new GsonBuilder()
+                            .registerTypeAdapter(type, new KrakenTypeAdapter<>(typeAdapter))
+                            .create()
+                            .fromJson(responseJson, type);
 
                     // Throw exception if has error (to trigger error callbacks)...
                     if (response.error.length > 0)

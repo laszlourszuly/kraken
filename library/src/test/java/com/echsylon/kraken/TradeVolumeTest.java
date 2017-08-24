@@ -72,7 +72,7 @@ public class TradeVolumeTest {
         assertThat(result.currency, is("ZUSD"));
         assertThat(result.volume, is("146820.7852"));
         assertThat(result.fees.size(), is(1));
-        assertThat(result.feesMaker.size(), is(1));
+        assertThat(result.makerFees.size(), is(1));
 
         feeInfo = result.fees.get("XETHZEUR");
         assertThat(feeInfo.fee, is("0.2200"));
@@ -82,7 +82,7 @@ public class TradeVolumeTest {
         assertThat(feeInfo.nextVolume, is("250000.0000"));
         assertThat(feeInfo.tierVolume, is("100000.0000"));
 
-        feeInfo = result.feesMaker.get("XETHZEUR");
+        feeInfo = result.makerFees.get("XETHZEUR");
         assertThat(feeInfo.fee, is("0.1200"));
         assertThat(feeInfo.minFee, is("0.0000"));
         assertThat(feeInfo.maxFee, is("0.1600"));

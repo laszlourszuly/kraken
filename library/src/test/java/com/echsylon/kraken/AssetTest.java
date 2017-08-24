@@ -54,8 +54,8 @@ public class AssetTest {
         assertThat(result.size(), is(1));
 
         Asset asset = result.get("XYZ");
-        assertThat(asset.aClass, is("test_class"));
-        assertThat(asset.altName, is("XYZ"));
+        assertThat(asset.assetClass, is("test_class"));
+        assertThat(asset.alternativeName, is("XYZ"));
         assertThat(asset.decimals, is(10));
         assertThat(asset.displayDecimals, is(5));
     }

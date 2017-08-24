@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public final class Position {
 
     @SerializedName("ordertxid")
-    public String orderTxId;
+    public String orderTransactionId;
 
     @SerializedName("pair")
     public String pair;
@@ -31,10 +31,10 @@ public final class Position {
     public String fee;
 
     @SerializedName("vol")
-    public String vol;
+    public String volume;
 
     @SerializedName("vol_closed")
-    public String volClosed;
+    public String closedVolume;
 
     @SerializedName("margin")
     public String margin;
@@ -49,6 +49,6 @@ public final class Position {
     public String misc;
 
     @SerializedName("oflags")
-    public String oflags;
+    public String orderFlags;
 
 }

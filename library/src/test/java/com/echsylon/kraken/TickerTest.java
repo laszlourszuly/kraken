@@ -58,25 +58,25 @@ public class TickerTest {
         assertThat(result.size(), is(1));
 
         Ticker ticker = result.get("XETHZEUR");
-        assertThat(ticker.a.price, is("1"));
-        assertThat(ticker.a.wholeLotVolume, is("2"));
-        assertThat(ticker.a.lotVolume, is("3"));
-        assertThat(ticker.b.price, is("4"));
-        assertThat(ticker.b.wholeLotVolume, is("5"));
-        assertThat(ticker.b.lotVolume, is("6"));
-        assertThat(ticker.c.price, is("7"));
-        assertThat(ticker.c.lotVolume, is("8"));
-        assertThat(ticker.v.today, is("9"));
-        assertThat(ticker.v.last24Hours, is("10"));
-        assertThat(ticker.p.today, is("11"));
-        assertThat(ticker.p.last24Hours, is("12"));
-        assertThat(ticker.t.today, is("13"));
-        assertThat(ticker.t.last24Hours, is("14"));
-        assertThat(ticker.l.today, is("15"));
-        assertThat(ticker.l.last24Hours, is("16"));
-        assertThat(ticker.h.today, is("17"));
-        assertThat(ticker.h.last24Hours, is("18"));
-        assertThat(ticker.o, is("19"));
+        assertThat(ticker.ask.price, is("1"));
+        assertThat(ticker.ask.wholeLotVolume, is("2"));
+        assertThat(ticker.ask.lotVolume, is("3"));
+        assertThat(ticker.bid.price, is("4"));
+        assertThat(ticker.bid.wholeLotVolume, is("5"));
+        assertThat(ticker.bid.lotVolume, is("6"));
+        assertThat(ticker.lastClosedTrade.price, is("7"));
+        assertThat(ticker.lastClosedTrade.lotVolume, is("8"));
+        assertThat(ticker.volume.today, is("9"));
+        assertThat(ticker.volume.last24Hours, is("10"));
+        assertThat(ticker.volumeWeightedAveragePrice.today, is("11"));
+        assertThat(ticker.volumeWeightedAveragePrice.last24Hours, is("12"));
+        assertThat(ticker.numberOfTrades.today, is("13"));
+        assertThat(ticker.numberOfTrades.last24Hours, is("14"));
+        assertThat(ticker.low.today, is("15"));
+        assertThat(ticker.low.last24Hours, is("16"));
+        assertThat(ticker.high.today, is("17"));
+        assertThat(ticker.high.last24Hours, is("18"));
+        assertThat(ticker.openingPriceToday, is("19"));
     }
 
 }

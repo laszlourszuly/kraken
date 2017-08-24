@@ -11,6 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -57,14 +58,15 @@ public class TradeBalanceTest {
                         .enqueue();
 
         TradeBalance result = request.get(); // Blocks until Kraken delivers
-        assertThat(result.eb, is("21.1589470825"));
-        assertThat(result.tb, is("21.1589468600"));
-        assertThat(result.m, is("0.0000000001"));
-        assertThat(result.n, is("0.0000000002"));
-        assertThat(result.c, is("0.0000000003"));
-        assertThat(result.v, is("0.0000000004"));
-        assertThat(result.e, is("21.1589468600"));
-        assertThat(result.mf, is("21.1589468605"));
+        assertThat(result.equivalentBalance, is("21.1589470825"));
+        assertThat(result.tradeBalance, is("21.1589468600"));
+        assertThat(result.margin, is("0.0000000001"));
+        assertThat(result.net, is("0.0000000002"));
+        assertThat(result.cost, is("0.0000000003"));
+        assertThat(result.floatingValuation, is("0.0000000004"));
+        assertThat(result.equity, is("21.1589468600"));
+        assertThat(result.freeMargin, is("21.1589468605"));
+        assertThat(result.marginLevel, is(nullValue()));
     }
 
 }

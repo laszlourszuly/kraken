@@ -67,10 +67,10 @@ public class AssetPairTest {
         assertThat(result.size(), is(1));
 
         AssetPair assetPair = result.get("XETHZEUR");
-        assertThat(assetPair.altName, is("ETHEUR"));
-        assertThat(assetPair.aClassBase, is("currency"));
+        assertThat(assetPair.alternativeName, is("ETHEUR"));
+        assertThat(assetPair.baseAssetClass, is("currency"));
         assertThat(assetPair.base, is("XETH"));
-        assertThat(assetPair.aClassQuote, is("currency"));
+        assertThat(assetPair.quoteAssetClass, is("currency"));
         assertThat(assetPair.quote, is("ZEUR"));
         assertThat(assetPair.lot, is("unit"));
         assertThat(assetPair.pairDecimals, is(5));
@@ -87,14 +87,14 @@ public class AssetPairTest {
         assertThat(assetPair.fees[0].feePercent, is(0.26));
         assertThat(assetPair.fees[1].volume, is(5));
         assertThat(assetPair.fees[1].feePercent, is(0.24));
-        assertThat(assetPair.feesMaker.length, is(2));
-        assertThat(assetPair.feesMaker[0].volume, is(10));
-        assertThat(assetPair.feesMaker[0].feePercent, is(0.16));
-        assertThat(assetPair.feesMaker[1].volume, is(50));
-        assertThat(assetPair.feesMaker[1].feePercent, is(0.14));
-        assertThat(assetPair.feeVolumeCurrency, is("ZUSD"));
-        assertThat(assetPair.marginCall, is(80));
-        assertThat(assetPair.marginStop, is(40));
+        assertThat(assetPair.makerFees.length, is(2));
+        assertThat(assetPair.makerFees[0].volume, is(10));
+        assertThat(assetPair.makerFees[0].feePercent, is(0.16));
+        assertThat(assetPair.makerFees[1].volume, is(50));
+        assertThat(assetPair.makerFees[1].feePercent, is(0.14));
+        assertThat(assetPair.volumeCurrencyFee, is("ZUSD"));
+        assertThat(assetPair.callMargin, is(80));
+        assertThat(assetPair.stopMargin, is(40));
     }
 
 }

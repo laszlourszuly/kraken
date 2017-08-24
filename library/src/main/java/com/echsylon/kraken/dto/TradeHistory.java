@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public final class TradeHistory {
 
     @SerializedName("ordertxid")
-    public String orderTxId;
+    public String orderTransactionId;
 
     @SerializedName("posstatus")
     public String positionStatus;
@@ -31,31 +31,31 @@ public final class TradeHistory {
     public String price;
 
     @SerializedName("cprice")
-    public String cPrice;
+    public String closedPartPrice;
 
     @SerializedName("cost")
     public String cost;
 
     @SerializedName("ccost")
-    public String cCost;
+    public String closedPartCost;
 
     @SerializedName("fee")
     public String fee;
 
     @SerializedName("cfee")
-    public String cFee;
+    public String closedPartFee;
 
     @SerializedName("vol")
-    public String vol;
+    public String volume;
 
     @SerializedName("cvol")
-    public String cVol;
+    public String closedPartVolume;
 
     @SerializedName("margin")
     public String margin;
 
     @SerializedName("cmargin")
-    public String cMargin;
+    public String closedPartMargin;
 
     @SerializedName("misc")
     public String misc;

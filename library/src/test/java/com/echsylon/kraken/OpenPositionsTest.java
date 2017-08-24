@@ -70,20 +70,20 @@ public class OpenPositionsTest {
         assertThat(result.count, is(nullValue()));
 
         Position position = result.get("TRANSACTION-ID");
-        assertThat(position.orderTxId, is("ORDER-ID"));
+        assertThat(position.orderTransactionId, is("ORDER-ID"));
         assertThat(position.pair, is("XETHZEUR"));
         assertThat(position.time, is(1502402208.9073D));
         assertThat(position.type, is("buy"));
         assertThat(position.orderType, is("limit"));
         assertThat(position.cost, is("8785.09240"));
         assertThat(position.fee, is("10.54211"));
-        assertThat(position.vol, is("33.78881692"));
-        assertThat(position.volClosed, is("33.78881693"));
+        assertThat(position.volume, is("33.78881692"));
+        assertThat(position.closedVolume, is("33.78881693"));
         assertThat(position.margin, is("0.00000"));
         assertThat(position.value, is("0.00001"));
         assertThat(position.net, is("0.2"));
         assertThat(position.misc, is(""));
-        assertThat(position.oflags, is(""));
+        assertThat(position.orderFlags, is(""));
     }
 
 }

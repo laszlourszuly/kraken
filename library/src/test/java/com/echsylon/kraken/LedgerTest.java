@@ -65,10 +65,10 @@ public class LedgerTest {
         assertThat(result.last, is(nullValue()));
 
         Ledger ledger = result.get("LEDGER-ID");
-        assertThat(ledger.refId, is("REFERENCE-ID"));
+        assertThat(ledger.referenceId, is("REFERENCE-ID"));
         assertThat(ledger.time, is(1503088479.9367D));
         assertThat(ledger.type, is("withdrawal"));
-        assertThat(ledger.aClass, is("currency"));
+        assertThat(ledger.assetClass, is("currency"));
         assertThat(ledger.asset, is("XETH"));
         assertThat(ledger.amount, is("-10.0000000000"));
         assertThat(ledger.fee, is("0.0050000000"));

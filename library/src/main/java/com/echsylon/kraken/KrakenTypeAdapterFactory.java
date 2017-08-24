@@ -167,7 +167,7 @@ final class KrakenTypeAdapterFactory implements TypeAdapterFactory {
             result.high = in.nextString();
             result.low = in.nextString();
             result.close = in.nextString();
-            result.vwap = in.nextString();
+            result.volumeWeightedAveragePrice = in.nextString();
             result.volume = in.nextString();
             result.count = in.nextInt();
             in.endArray();
@@ -238,7 +238,7 @@ final class KrakenTypeAdapterFactory implements TypeAdapterFactory {
         public Spread read(JsonReader in) throws IOException {
             in.beginArray();
             Spread result = new Spread();
-            result.time = in.nextLong();
+            result.timestamp = in.nextLong();
             result.bid = in.nextString();
             result.ask = in.nextString();
             in.endArray();

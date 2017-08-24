@@ -6,6 +6,8 @@ package com.echsylon.kraken.dto;
  */
 @SuppressWarnings("WeakerAccess")
 public final class OrderCancelReceipt {
+
     public Integer count;
     public Boolean pending;
+
 }

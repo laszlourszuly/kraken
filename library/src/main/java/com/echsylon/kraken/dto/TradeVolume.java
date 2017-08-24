@@ -43,6 +43,6 @@ public final class TradeVolume {
     public Map<String, FeeInfo> fees;
 
     @SerializedName("fees_maker")
-    public Map<String, FeeInfo> feesMaker;
+    public Map<String, FeeInfo> makerFees;
 
 }

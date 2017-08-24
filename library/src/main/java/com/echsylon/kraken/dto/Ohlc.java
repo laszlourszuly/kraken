@@ -12,7 +12,7 @@ public final class Ohlc {
     public String high;
     public String low;
     public String close;
-    public String vwap;     // volume weighted average price?
+    public String volumeWeightedAveragePrice;
     public String volume;
     public Integer count;
 

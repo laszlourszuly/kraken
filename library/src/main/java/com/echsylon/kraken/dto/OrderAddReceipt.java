@@ -21,9 +21,9 @@ public final class OrderAddReceipt {
 
 
     @SerializedName("descr")
-    public Description descr;
+    public Description description;
 
     @SerializedName("txid")
-    public String[] txId;
+    public String[] transactionId;
 
 }

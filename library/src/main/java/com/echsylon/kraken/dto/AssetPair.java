@@ -16,16 +16,16 @@ public final class AssetPair {
 
 
     @SerializedName("altname")
-    public String altName;
+    public String alternativeName;
 
     @SerializedName("aclass_base")
-    public String aClassBase;
+    public String baseAssetClass;
 
     @SerializedName("base")
     public String base;
 
     @SerializedName("aclass_quote")
-    public String aClassQuote;
+    public String quoteAssetClass;
 
     @SerializedName("quote")
     public String quote;
@@ -52,15 +52,15 @@ public final class AssetPair {
     public FeeSchedule[] fees;
 
     @SerializedName("fees_maker")
-    public FeeSchedule[] feesMaker;
+    public FeeSchedule[] makerFees;
 
     @SerializedName("fee_volume_currency")
-    public String feeVolumeCurrency;
+    public String volumeCurrencyFee;
 
     @SerializedName("margin_call")
-    public Integer marginCall;
+    public Integer callMargin;
 
     @SerializedName("margin_stop")
-    public Integer marginStop;
+    public Integer stopMargin;
 
 }

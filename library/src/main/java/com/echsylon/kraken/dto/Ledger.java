@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public final class Ledger {
 
     @SerializedName("refid")
-    public String refId;
+    public String referenceId;
 
     @SerializedName("time")
     public Double time;
@@ -19,7 +19,7 @@ public final class Ledger {
     public String type;
 
     @SerializedName("aclass")
-    public String aClass;
+    public String assetClass;
 
     @SerializedName("asset")
     public String asset;

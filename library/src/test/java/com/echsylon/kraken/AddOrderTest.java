@@ -53,11 +53,11 @@ public class AddOrderTest {
                         .enqueue();
 
         OrderAddReceipt result = request.get(); // Blocks until Kraken delivers
-        OrderAddReceipt.Description description = result.descr;
+        OrderAddReceipt.Description description = result.description;
         assertThat(description.order, is("sell 1.00000000 ETHEUR @ limit 400.00000"));
         assertThat(description.close, is(nullValue()));
-        assertThat(result.txId.length, is(1));
-        assertThat(result.txId[0], is("ORDER-TRANSACTION-ID"));
+        assertThat(result.transactionId.length, is(1));
+        assertThat(result.transactionId[0], is("ORDER-TRANSACTION-ID"));
     }
 
 }

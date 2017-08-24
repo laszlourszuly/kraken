@@ -64,7 +64,7 @@ public class OhlcTest {
         assertThat(ohlc.high, is("270.02758"));
         assertThat(ohlc.low, is("267.51370"));
         assertThat(ohlc.close, is("269.00106"));
-        assertThat(ohlc.vwap, is("268.70391"));
+        assertThat(ohlc.volumeWeightedAveragePrice, is("268.70391"));
         assertThat(ohlc.volume, is("1365.04869100"));
         assertThat(ohlc.count, is(616));
     }

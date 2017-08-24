@@ -10,30 +10,30 @@ import com.google.gson.annotations.SerializedName;
 public final class TradeBalance {
 
     @SerializedName("eb")
-    public String eb;
+    public String equivalentBalance;
 
     @SerializedName("tb")
-    public String tb;
+    public String tradeBalance;
 
     @SerializedName("m")
-    public String m;
+    public String margin;
 
     @SerializedName("n")
-    public String n;
+    public String net;
 
     @SerializedName("c")
-    public String c;
+    public String cost;
 
     @SerializedName("v")
-    public String v;
+    public String floatingValuation;
 
     @SerializedName("e")
-    public String e;
+    public String equity;
 
     @SerializedName("mf")
-    public String mf;
+    public String freeMargin;
 
     @SerializedName("ml")
-    public String ml;
+    public String marginLevel;
 
 }

@@ -10,10 +10,10 @@ import com.google.gson.annotations.SerializedName;
 public final class Asset {
 
     @SerializedName("aclass")
-    public String aClass;
+    public String assetClass;
 
     @SerializedName("altname")
-    public String altName;
+    public String alternativeName;
 
     @SerializedName("decimals")
     public Integer decimals;

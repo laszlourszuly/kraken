@@ -54,10 +54,10 @@ public class RecentSpreadTest {
         assertThat(result.last, is("1503526481"));
 
         Spread[] trades = result.get("XETHZEUR");
-        assertThat(trades[0].time, is(1503526467L));
+        assertThat(trades[0].timestamp, is(1503526467L));
         assertThat(trades[0].bid, is("271.13909"));
         assertThat(trades[0].ask, is("271.49000"));
-        assertThat(trades[1].time, is(1503526475L));
+        assertThat(trades[1].timestamp, is(1503526475L));
         assertThat(trades[1].bid, is("271.17987"));
         assertThat(trades[1].ask, is("271.49001"));
     }

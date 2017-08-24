@@ -24,7 +24,7 @@ public final class Order {
         public String price;
 
         @SerializedName("price2")
-        public String price2;
+        public String secondaryPrice;
 
         @SerializedName("leverage")
         public String leverage;
@@ -39,10 +39,10 @@ public final class Order {
 
 
     @SerializedName("refid")
-    public String refId;
+    public String referenceId;
 
     @SerializedName("userref")
-    public String userRef;
+    public String userReference;
 
     @SerializedName("status")
     public String status;
@@ -51,16 +51,16 @@ public final class Order {
     public String reason;
 
     @SerializedName("opentm")
-    public Double openTimestamp;
+    public Double openTime;
 
     @SerializedName("closetm")
-    public Double closeTimestamp;
+    public Double closeTime;
 
     @SerializedName("starttm")
-    public Double startTimestamp;
+    public Double startTime;
 
     @SerializedName("expiretm")
-    public Double expireTimestamp;
+    public Double expireTime;
 
     @SerializedName("descr")
     public Description description;
@@ -90,7 +90,7 @@ public final class Order {
     public String misc;
 
     @SerializedName("oflags")
-    public String oflags;
+    public String orderFlags;
 
     @SerializedName("trades")
     public String[] trades;

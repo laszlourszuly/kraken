@@ -41,8 +41,7 @@ android {
 }
 
 dependencies {
-    compile 'com.echsylon.blocks:network:2.2.1'
-    compile 'com.annimon:stream:1.1.7' // Remove once Android supports Java 8
+    compile 'com.echsylon.blocks:network:2.2.3'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'

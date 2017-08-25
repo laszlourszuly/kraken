@@ -28,19 +28,35 @@ krakenClient
         });
 ```
 
-The `FinishListener` will always be called prior to any `SuccessListener` or `ErrorListener` callbacks. It offers a common callback for stuff you'd do regardless of the nature of the result, like dismissing any progress dialogs or so.
+The `FinishListener` will always be called prior to any `SuccessListener` or `ErrorListener` callbacks. It offers a common callback for stuff you'd do regardless the nature of the result, like dismissing any progress dialogs or so.
 
-The `SuccessListener` will provide the requested resource if the request terminates successfully. In the above example it's a `List<Asset>` object. Note that you'll get native domain objects, saving you the effort of transforming and parsing JSON.
+The `SuccessListener` will provide the requested resource if the request terminates successfully. In the above example it's a `Dictionary<Asset>` object. Note that you'll get native domain objects, saving you the effort of transforming and parsing JSON.
 
-The `ErrorListener` will notify you about something going wrong. This may be an HTTP error state, a Kraken API error (invalid input data etc) or even the very unlikely case of the client producing an exception during execution.
+The `ErrorListener` will notify you about something going wrong. This may be an HTTP error state, a Kraken application error (invalid input data etc) or even the very unlikely case of the Android client producing an exception during execution.
 
 You can attach [0..n] listeners to a request and they will all be called on the main thread.
+
+# Call rate limit management
+You have the option of enabling automatic call rate limit management on the client side as well. This will help you dodge unnecessary API request blocks by simply pausing the processing of your enqueued requests until the the call rate counter has chilled down enough to safely accept a new request. You enable the manager by calling:
+
+```java
+int tier = 2; // The tier of your account
+Kraken.setCallRateLimit(tier);
+```
+
+And you cancel it by:
+
+```java
+Kraken.clearCallRateLimit();
+```
+
+Note that the server has the last saying in determining the actual state of the call rate limit.
 
 # Client side caching
 This client offers means of caching responses from the server. Some responses are safe to cache (e.g. supported assets and assetpairs) while others are directly unwise to (like account balances etc). If you want to cache content you have to do a one time configuration of the Kraken client telling where and how much to cache:
 
 ```java
-Kraken.setup(context.getCacheDir(), 4 * 1024 * 1024); // 4MB cache
+Kraken.setupCache(context.getCacheDir(), 4 * 1024 * 1024); // 4MB cache
 ```
 
 The actual cache control is exposed on a per-request level and is offered in two variants. One "soft-cache" which means that the provided cache control will be applied only if the server doesn't itself provide any specific cache control:

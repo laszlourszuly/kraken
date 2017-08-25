@@ -101,4 +101,56 @@ public class KrakenTest {
         assertThat(request.get(1, SECONDS), is(notNullValue()));
     }
 
+    @Test
+    public void performingTooFrequentRequests_shouldPauseProcessingRequests() throws Exception {
+        atlantis = MockHelper.start("GET", "/0/public/Time",
+                "{'error': [], 'result': {}}");
+
+        try {
+            Kraken.setCallRateLimit(2); // limit 15, reduced by 1 per 3 sec
+            Kraken kraken = new Kraken("http://localhost:8080");
+            for (int i = 0; i < 15; i++)
+                kraken.getServerTime().enqueue();
+
+            long startSeconds = System.currentTimeMillis() / 1000L;
+
+            ((DefaultRequest<Time>) new Kraken("http://localhost:8080")
+                    .getServerTime()
+                    .enqueue())
+                    .get();
+
+            long stopSeconds = System.currentTimeMillis() / 1000L;
+            assertThat(stopSeconds - startSeconds, is(3L));
+        } finally {
+            Kraken.clearCallRateLimit();
+        }
+    }
+
+    @Test
+    public void performingTooFrequentRequestsAndThenWaiting_shouldChillCallCounterEnoughToAllowMoreRequests() throws Exception {
+        atlantis = MockHelper.start("GET", "/0/public/Time",
+                "{'error': [], 'result': {}}");
+
+        try {
+            Kraken.setCallRateLimit(2); // limit 15, reduced by 1 per 3 sec
+            Kraken kraken = new Kraken("http://localhost:8080");
+            for (int i = 0; i < 15; i++)
+                kraken.getServerTime().enqueue();
+
+            Thread.sleep(3000);
+
+
+            DefaultRequest<Time> request = (DefaultRequest<Time>) new Kraken("http://localhost:8080")
+                    .getServerTime()
+                    .enqueue();
+
+            long startSeconds = System.currentTimeMillis() / 1000L;
+            request.get();
+            long stopSeconds = System.currentTimeMillis() / 1000L;
+
+            assertThat(stopSeconds - startSeconds, is(0L));
+        } finally {
+            Kraken.clearCallRateLimit();
+        }
+    }
 }

@@ -1,7 +1,8 @@
 package com.echsylon.kraken;
 
 /**
- * Created by laszlo on 2017-08-25.
+ * This class know how to calculate the call rate limit state for API requests
+ * and will temporary block the thread if the limit is exceeded.
  */
 final class CallCounter {
     private final int decreaseInterval;
@@ -10,6 +11,13 @@ final class CallCounter {
     private long lastCallTime;
     private int callCounter;
 
+
+    /**
+     * Creates a new call rate state machine and initializes it with rules
+     * according to the supplied tier.
+     *
+     * @param tier The tier that decides which call rate limit rules to apply.
+     */
     CallCounter(int tier) {
         lastCallTime = 0L;
         callCounter = 0;
@@ -33,6 +41,15 @@ final class CallCounter {
         }
     }
 
+
+    /**
+     * Calculates the next state of the call rate state machine according to the
+     * supplied request cost. If the call rate limit is exceeded, the calling
+     * thread is blocked to allow the call counter to chill down and allow the
+     * request to proceed.
+     *
+     * @param cost The cost of the request being handled right now.
+     */
     synchronized void allocate(int cost) {
         // Early bail-out
         if (lastCallTime == 0L) {

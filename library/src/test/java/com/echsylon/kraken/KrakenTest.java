@@ -13,6 +13,8 @@ import org.robolectric.annotation.Config;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.echsylon.kraken.TestHelper.getKrakenInstance;
+import static com.echsylon.kraken.TestHelper.startMockServer;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
@@ -42,11 +44,11 @@ public class KrakenTest {
 
     @Test
     public void responseWithError_shouldThrowException() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/Time",
+        atlantis = startMockServer("GET", "/0/public/Time",
                 "{'error': ['Some:Error:Structure']}");
 
         DefaultRequest<Time> request =
-                (DefaultRequest<Time>) new Kraken("http://localhost:8080")
+                (DefaultRequest<Time>) getKrakenInstance()
                         .getServerTime()
                         .enqueue();
 
@@ -57,13 +59,13 @@ public class KrakenTest {
 
     @Test
     public void responseWithSuccess_shouldNotThrowException() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/Time",
+        atlantis = startMockServer("GET", "/0/public/Time",
                 "{'error': [], 'result': {" +
                         " 'unixtime': 0," +
                         " 'rfc1123': 'some_rfc1123_time'}}");
 
         DefaultRequest<Time> request =
-                (DefaultRequest<Time>) new Kraken("http://localhost:8080")
+                (DefaultRequest<Time>) getKrakenInstance()
                         .getServerTime()
                         .enqueue();
 
@@ -72,11 +74,11 @@ public class KrakenTest {
 
     @Test
     public void requestingPrivateResource_shouldThrowExceptionIfNoCredentialsProvided() throws Exception {
-        atlantis = MockHelper.start("POST", "/0/private/Balance",
+        atlantis = startMockServer("POST", "/0/private/Balance",
                 "{'error': [], 'result': {}}");
 
         DefaultRequest<?> request =
-                (DefaultRequest<?>) new Kraken("http://localhost:8080")
+                (DefaultRequest<?>) getKrakenInstance()
                         .getAccountBalance()
                         .enqueue();
 
@@ -87,14 +89,14 @@ public class KrakenTest {
 
     @Test
     public void requestingPrivateResource_shouldNotThrowExceptionIfCredentialsProvided() throws Exception {
-        atlantis = MockHelper.start("POST", "/0/private/Balance",
+        atlantis = startMockServer("POST", "/0/private/Balance",
                 "{'error': [], result: {}}");
 
         String key = "key";
         String secret = "c2VjcmV0";
 
         DefaultRequest<?> request =
-                (DefaultRequest<?>) new Kraken("http://localhost:8080", key, secret)
+                (DefaultRequest<?>) getKrakenInstance(key, secret)
                         .getAccountBalance()
                         .enqueue();
 
@@ -103,18 +105,18 @@ public class KrakenTest {
 
     @Test
     public void performingTooFrequentRequests_shouldPauseProcessingRequests() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/Time",
+        atlantis = startMockServer("GET", "/0/public/Time",
                 "{'error': [], 'result': {}}");
 
         try {
             Kraken.setCallRateLimit(2); // limit 15, reduced by 1 per 3 sec
-            Kraken kraken = new Kraken("http://localhost:8080");
+            Kraken kraken = getKrakenInstance();
             for (int i = 0; i < 15; i++)
                 kraken.getServerTime().enqueue();
 
             long startSeconds = System.currentTimeMillis() / 1000L;
 
-            ((DefaultRequest<Time>) new Kraken("http://localhost:8080")
+            ((DefaultRequest<Time>) kraken
                     .getServerTime()
                     .enqueue())
                     .get(4, SECONDS);
@@ -128,18 +130,18 @@ public class KrakenTest {
 
     @Test
     public void performingTooFrequentRequestsAndThenWaiting_shouldChillCallCounterEnoughToAllowMoreRequests() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/Time",
+        atlantis = startMockServer("GET", "/0/public/Time",
                 "{'error': [], 'result': {}}");
 
         try {
             Kraken.setCallRateLimit(2); // limit 15, reduced by 1 per 3 sec
-            Kraken kraken = new Kraken("http://localhost:8080");
+            Kraken kraken = getKrakenInstance();
             for (int i = 0; i < 15; i++)
                 kraken.getServerTime().enqueue();
 
             Thread.sleep(3000);
 
-            DefaultRequest<Time> request = (DefaultRequest<Time>) new Kraken("http://localhost:8080")
+            DefaultRequest<Time> request = (DefaultRequest<Time>) kraken
                     .getServerTime()
                     .enqueue();
 

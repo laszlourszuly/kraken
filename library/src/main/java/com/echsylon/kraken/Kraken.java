@@ -1,13 +1,32 @@
 package com.echsylon.kraken;
 
 import com.echsylon.blocks.network.OkHttpNetworkClient;
-import com.echsylon.kraken.dto.Depth;
-import com.echsylon.kraken.dto.OrderAddReceipt;
-import com.echsylon.kraken.dto.Trade;
+import com.echsylon.kraken.internal.CallCounter;
+import com.echsylon.kraken.request.AccountBalanceRequestBuilder;
+import com.echsylon.kraken.request.AddOrderRequestBuilder;
+import com.echsylon.kraken.request.AssetInfoRequestBuilder;
+import com.echsylon.kraken.request.CancelOrderRequestBuilder;
+import com.echsylon.kraken.request.ClosedOrdersRequestBuilder;
+import com.echsylon.kraken.request.LedgersRequestBuilder;
+import com.echsylon.kraken.request.OhlcDataRequestBuilder;
+import com.echsylon.kraken.request.OpenOrdersRequestBuilder;
+import com.echsylon.kraken.request.OpenPositionsRequestBuilder;
+import com.echsylon.kraken.request.OrderBookRequestBuilder;
+import com.echsylon.kraken.request.QueryLedgersRequestBuilder;
+import com.echsylon.kraken.request.QueryOrdersRequestBuilder;
+import com.echsylon.kraken.request.QueryTradesRequestBuilder;
+import com.echsylon.kraken.request.RecentSpreadRequestBuilder;
+import com.echsylon.kraken.request.RecentTradesRequestBuilder;
+import com.echsylon.kraken.request.ServerTimeRequestBuilder;
+import com.echsylon.kraken.request.TickerInfoRequestBuilder;
+import com.echsylon.kraken.request.TradableAssetPairsRequestBuilder;
+import com.echsylon.kraken.request.TradeBalanceRequestBuilder;
+import com.echsylon.kraken.request.TradeHistoryRequestBuilder;
+import com.echsylon.kraken.request.TradeVolumeRequestBuilder;
 
 import java.io.File;
 
-import static com.echsylon.kraken.Utils.base64Decode;
+import static com.echsylon.kraken.internal.Utils.base64Decode;
 
 /**
  * This class describes the Kraken API.
@@ -64,10 +83,6 @@ public class Kraken {
      *
      * @param baseUrl The base url to the test environment.
      */
-    Kraken(String baseUrl) {
-        this(baseUrl, null, null);
-    }
-
     Kraken(String baseUrl, String key, String secret) {
         this.baseUrl = baseUrl;
         this.key = key;
@@ -165,7 +180,7 @@ public class Kraken {
      * @return A request builder object to configure the request and any client
      * side cache metrics with, and to attach any callback implementations to.
      */
-    public RequestBuilder<Dictionary<Depth>> getOrderBook(final String pair) {
+    public OrderBookRequestBuilder getOrderBook(final String pair) {
         return new OrderBookRequestBuilder(callCounter, baseUrl, key, secret)
                 .useAssetPair(pair);
     }
@@ -178,7 +193,7 @@ public class Kraken {
      * @return A request builder object to configure the request and any client
      * side cache metrics with, and to attach any callback implementations to.
      */
-    public RequestBuilder<Dictionary<Trade[]>> getRecentTrades(final String pair) {
+    public RecentTradesRequestBuilder getRecentTrades(final String pair) {
         return new RecentTradesRequestBuilder(callCounter, baseUrl, key, secret)
                 .useAssetPair(pair);
     }
@@ -327,10 +342,10 @@ public class Kraken {
      * @return A request builder object to configure the request and any client
      * side cache metrics with, and to attach any callback implementations to.
      */
-    public RequestBuilder<OrderAddReceipt> addStandardOrder(final String pair,
-                                                            final String type,
-                                                            final String orderType,
-                                                            final String price) {
+    public AddOrderRequestBuilder addStandardOrder(final String pair,
+                                                   final String type,
+                                                   final String orderType,
+                                                   final String price) {
         return new AddOrderRequestBuilder(callCounter, baseUrl, key, secret)
                 .useAssetPair(pair)
                 .useType(type)

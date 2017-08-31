@@ -7,15 +7,17 @@ This third party library aims to wrap the official [Kraken Exchange API](https:/
 You simply add the below dependency to your Android project (preferrably picking the latest version):
 
 ```javascript
-compile 'com.echsylon.kraken:kraken:0.0.2'
+compile 'com.echsylon.kraken:kraken:0.3.0'
 ```
 
-You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. It will provide a callback interface to which you can attach any (optional) listeners:
+You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. The returned `RequestBuilder` will allow you to add any optional query data before you finally enqueue the request. The `enqueue()` call will provide a callback interface to which you can attach any (optional) result listeners:
 
 ```java
 Kraken krakenClient = new Kraken();
-krakenClient
-        .getAssetInfo("info", "currency") // Get all available info on all currencies
+krakenClient.getAssetInfo()
+        .useInfo("info")
+        .useAssetClass("currency")
+        .useAssets("XETH", "ZEUR")
         .enqueue()
         .withFinishListener(() -> {
             // Hide progress spinner etc.
@@ -53,7 +55,7 @@ Kraken.clearCallRateLimit();
 Note that the server has the last saying in determining the actual state of the call rate limit.
 
 # Client side caching
-This client offers means of caching responses from the server. Some responses are safe to cache (e.g. supported assets and assetpairs) while others are directly unwise to (like account balances etc). If you want to cache content you have to do a one time configuration of the Kraken client telling where and how much to cache:
+This client offers means of caching responses from the server. Some responses are safe to cache (e.g. supported assets and assetpairs) while others are directly unwise to cache (like account balances etc). If you want to cache content you have to do a one time configuration of the Kraken client telling where to cache and how much disk space to use at most:
 
 ```java
 Kraken.setupCache(context.getCacheDir(), 4 * 1024 * 1024); // 4MB cache
@@ -63,9 +65,9 @@ The actual cache control is exposed on a per-request level and is offered in two
 
 ```java
 krakenClient
-        .getAssetInfo("info", "currency") // Get all available info on all currencies
-        .softCache(86400)                 // Cache for a day if server doesn't say otherwise
-        .maxStale(3600)                   // Serve expired cache content for an hour if no conn
+        .getAssetInfo()        // Get all available info on all currencies
+        .softCache(86400)      // Cache for a day if server doesn't say otherwise
+        .maxStale(3600)        // Serve expired cache content for an hour if no connection
         .enqueue()
         ...
 ```
@@ -74,9 +76,9 @@ Similarly there is a "hard-cache" that will override any server provided cache c
 
 ```java
 krakenClient
-        .getAssetInfo("info", "currency") // Get all available info on all currencies
-        .hardCache(86400)                 // Cache for a day regardless what the server says
-        .maxStale(3600)                   // Serve expired cache content for an hour if no conn
+        .getAssetInfo()        // Get all available info on all currencies
+        .hardCache(86400)      // Cache for a day regardless what the server says
+        .maxStale(3600)        // Serve expired cache content for an hour if no connection
         .enqueue()
         ...
 ```
@@ -97,7 +99,7 @@ privateKrakenClient
         });
 ```
 
-Note that the secret needs to be provided in it's Base64 encoded form, as presented when you create the corresponding API key in the Kraken UI.
+Note that the secret needs to be provided in its Base64 encoded form, as presented when you create the corresponding API key in the Kraken UI.
 
 # Questions?
 Feel free to [raise a ticket](https://github.com/echsylon/kraken/issues) if you find a bug, would like something to change (actually I'd consider buying you a beer if you submit a pull request with a suggested change), or just want to discuss a topic.

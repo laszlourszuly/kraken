@@ -35,6 +35,17 @@ public class TradeVolumeRequestBuilder extends RequestBuilder<TradeVolume> {
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public TradeVolumeRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the fee info request property.
      *
      * @param includeFeeInfo Whether to include fee info. Defaults to false.

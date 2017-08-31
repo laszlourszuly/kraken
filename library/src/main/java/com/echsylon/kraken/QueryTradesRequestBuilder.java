@@ -38,6 +38,17 @@ public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHi
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public QueryTradesRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the include trades request property.
      *
      * @param includePositionTrades Whether to include trades related to

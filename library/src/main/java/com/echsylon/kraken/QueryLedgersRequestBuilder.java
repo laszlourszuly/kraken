@@ -37,6 +37,17 @@ public class QueryLedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public QueryLedgersRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the ledger ids request property.
      *
      * @param ledgerIds Id of ledgers to get. 20 max, at least one is required.

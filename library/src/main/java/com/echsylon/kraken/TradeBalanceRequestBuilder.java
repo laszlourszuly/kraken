@@ -31,6 +31,17 @@ public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance> {
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public TradeBalanceRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the base asset class request property.
      *
      * @param assetClass The type of the base asset. Defaults to "currency".

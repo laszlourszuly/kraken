@@ -34,6 +34,17 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public AddOrderRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the asset pair request property.
      *
      * @param assetPair Asset pair of the new order.

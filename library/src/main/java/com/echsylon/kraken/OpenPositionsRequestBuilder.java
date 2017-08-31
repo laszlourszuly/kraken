@@ -38,6 +38,17 @@ public class OpenPositionsRequestBuilder extends RequestBuilder<Dictionary<Posit
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public OpenPositionsRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the do calculations request property.
      *
      * @param performCalculations Whether to include profit/loss calculations.

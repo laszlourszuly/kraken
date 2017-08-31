@@ -31,6 +31,17 @@ public class CancelOrderRequestBuilder extends RequestBuilder<OrderCancelReceipt
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public CancelOrderRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the order id request property.
      *
      * @param id The transaction or user reference id of the order(s) to close.

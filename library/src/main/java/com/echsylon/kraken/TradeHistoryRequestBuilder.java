@@ -36,6 +36,17 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
 
 
     /**
+     * Sets the one time password to use when performing the request.
+     *
+     * @param oneTimePassword The password.
+     * @return This request builder instance allowing method call chaining.
+     */
+    public TradeHistoryRequestBuilder useOneTimePassword(final String oneTimePassword) {
+        data.put("otp", oneTimePassword);
+        return this;
+    }
+
+    /**
      * Sets the trade type request property.
      *
      * @param type The type of trades to get. Options: "all" (default), "any

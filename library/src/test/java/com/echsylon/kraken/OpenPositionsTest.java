@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -59,12 +60,12 @@ public class OpenPositionsTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<Dictionary<Position>> request =
-                (DefaultRequest<Dictionary<Position>>) new Kraken("http://localhost:8080", key, secret)
-                        .getOpenPositions(null)
-                        .enqueue();
+        Dictionary<Position> result =
+                ((DefaultRequest<Dictionary<Position>>) new Kraken("http://localhost:8080", key, secret)
+                        .getOpenPositions()
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Position> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
         assertThat(result.last, is(nullValue()));
         assertThat(result.count, is(nullValue()));

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -52,12 +53,12 @@ public class TradeBalanceTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<TradeBalance> request =
-                (DefaultRequest<TradeBalance>) new Kraken("http://localhost:8080", key, secret)
-                        .getTradeBalance("currency", "XETH")
-                        .enqueue();
+        TradeBalance result =
+                ((DefaultRequest<TradeBalance>) new Kraken("http://localhost:8080", key, secret)
+                        .getTradeBalance()
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        TradeBalance result = request.get(); // Blocks until Kraken delivers
         assertThat(result.equivalentBalance, is("21.1589470825"));
         assertThat(result.tradeBalance, is("21.1589468600"));
         assertThat(result.margin, is("0.0000000001"));

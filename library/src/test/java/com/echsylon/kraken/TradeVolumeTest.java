@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -61,18 +62,18 @@ public class TradeVolumeTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<TradeVolume> request =
-                (DefaultRequest<TradeVolume>) new Kraken("http://localhost:8080", key, secret)
-                        .getTradeVolume(null)
-                        .enqueue();
-
-        TradeVolume result = request.get(); // Blocks until Kraken delivers
-        TradeVolume.FeeInfo feeInfo;
+        TradeVolume result =
+                ((DefaultRequest<TradeVolume>) new Kraken("http://localhost:8080", key, secret)
+                        .getTradeVolume()
+                        .enqueue())
+                        .get(1, SECONDS);
 
         assertThat(result.currency, is("ZUSD"));
         assertThat(result.volume, is("146820.7852"));
         assertThat(result.fees.size(), is(1));
         assertThat(result.makerFees.size(), is(1));
+
+        TradeVolume.FeeInfo feeInfo;
 
         feeInfo = result.fees.get("XETHZEUR");
         assertThat(feeInfo.fee, is("0.2200"));

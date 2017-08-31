@@ -43,12 +43,12 @@ public class ServerTimeTest {
                         " 'unixtime': 0," +
                         " 'rfc1123': ''}}");
 
-        DefaultRequest<Time> request =
-                (DefaultRequest<Time>) new Kraken("http://localhost:8080")
+        Time time =
+                ((DefaultRequest<Time>) new Kraken("http://localhost:8080")
                         .getServerTime()
-                        .enqueue();
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Time time = request.get(1, SECONDS); // Blocks until Kraken delivers
         assertThat(time.unixtime, is(0L));
         assertThat(time.rfc1123, is(""));
     }

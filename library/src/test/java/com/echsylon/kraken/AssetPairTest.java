@@ -11,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -38,7 +41,7 @@ public class AssetPairTest {
 
     @Test
     public void requestingAssetPairs_shouldReturnMapOfParsedAssetPairObjects() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/AssetPairs\\?.*",
+        atlantis = MockHelper.start("GET", "/0/public/AssetPairs",
                 "{'error': [], 'result': {" +
                         " 'XETHZEUR': {" +
                         "  'altname': 'ETHEUR'," +
@@ -58,12 +61,12 @@ public class AssetPairTest {
                         "  'margin_call': 80," +
                         "  'margin_stop': 40}}}");
 
-        DefaultRequest<Dictionary<AssetPair>> request =
-                (DefaultRequest<Dictionary<AssetPair>>) new Kraken("http://localhost:8080")
-                        .getTradableAssetPairs("info")
-                        .enqueue();
+        Dictionary<AssetPair> result =
+                ((DefaultRequest<Dictionary<AssetPair>>) new Kraken("http://localhost:8080")
+                        .getTradableAssetPairs()
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<AssetPair> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
 
         AssetPair assetPair = result.get("XETHZEUR");

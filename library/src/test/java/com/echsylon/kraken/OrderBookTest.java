@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -47,12 +48,12 @@ public class OrderBookTest {
                         "    ['271.07985','2.750',1503523300]," +
                         "    ['271.00001','1.157',1503523300]]}}}");
 
-        DefaultRequest<Dictionary<Depth>> request =
-                (DefaultRequest<Dictionary<Depth>>) new Kraken("http://localhost:8080")
-                        .getOrderBook(null, null)
-                        .enqueue();
+        Dictionary<Depth> result =
+                ((DefaultRequest<Dictionary<Depth>>) new Kraken("http://localhost:8080")
+                        .getOrderBook(null)
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Depth> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
 
         Depth depth = result.get("XETHZEUR");

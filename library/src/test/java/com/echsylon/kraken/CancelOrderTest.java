@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -45,12 +46,12 @@ public class CancelOrderTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<OrderCancelReceipt> request =
-                (DefaultRequest<OrderCancelReceipt>) new Kraken("http://localhost:8080", key, secret)
+        OrderCancelReceipt result =
+                ((DefaultRequest<OrderCancelReceipt>) new Kraken("http://localhost:8080", key, secret)
                         .cancelOpenOrder(null)
-                        .enqueue();
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        OrderCancelReceipt result = request.get(); // Blocks until Kraken delivers
         assertThat(result.count, is(1));
         assertThat(result.pending, is(true));
     }

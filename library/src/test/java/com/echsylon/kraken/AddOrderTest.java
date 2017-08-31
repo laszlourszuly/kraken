@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -47,12 +48,12 @@ public class AddOrderTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<OrderAddReceipt> request =
-                (DefaultRequest<OrderAddReceipt>) new Kraken("http://localhost:8080", key, secret)
-                        .addStandardOrder(null, null, null, null, null, null, null, null, null, null, null, null, null, null)
-                        .enqueue();
+        OrderAddReceipt result =
+                ((DefaultRequest<OrderAddReceipt>) new Kraken("http://localhost:8080", key, secret)
+                        .addStandardOrder(null, null, null, null)
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        OrderAddReceipt result = request.get(); // Blocks until Kraken delivers
         OrderAddReceipt.Description description = result.description;
         assertThat(description.order, is("sell 1.00000000 ETHEUR @ limit 400.00000"));
         assertThat(description.close, is(nullValue()));

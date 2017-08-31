@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -49,12 +50,12 @@ public class TickerTest {
                         "  'h': ['17','18']," +
                         "  'o': '19'}}}");
 
-        DefaultRequest<Dictionary<Ticker>> request =
-                (DefaultRequest<Dictionary<Ticker>>) new Kraken("http://localhost:8080")
+        Dictionary<Ticker> result =
+                ((DefaultRequest<Dictionary<Ticker>>) new Kraken("http://localhost:8080")
                         .getTickerInformation()
-                        .enqueue();
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Ticker> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
 
         Ticker ticker = result.get("XETHZEUR");

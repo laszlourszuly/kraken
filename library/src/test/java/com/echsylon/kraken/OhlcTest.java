@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -49,12 +50,12 @@ public class OhlcTest {
                         "   616]]," +
                         " 'last': 1503403200}}");
 
-        DefaultRequest<Dictionary<Ohlc[]>> request =
-                (DefaultRequest<Dictionary<Ohlc[]>>) new Kraken("http://localhost:8080")
-                        .getOhlcData(null, null, null)
-                        .enqueue();
+        Dictionary<Ohlc[]> result =
+                ((DefaultRequest<Dictionary<Ohlc[]>>) new Kraken("http://localhost:8080")
+                        .getOhlcData(null)
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Ohlc[]> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503403200"));
 

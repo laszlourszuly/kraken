@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -44,12 +45,12 @@ public class RecentSpreadTest {
                         "  [1503526475,'271.17987','271.49001']]," +
                         " 'last':1503526481}}");
 
-        DefaultRequest<Dictionary<Spread[]>> request =
-                (DefaultRequest<Dictionary<Spread[]>>) new Kraken("http://localhost:8080")
-                        .getRecentSpreadData(null, null)
-                        .enqueue();
+        Dictionary<Spread[]> result =
+                ((DefaultRequest<Dictionary<Spread[]>>) new Kraken("http://localhost:8080")
+                        .getRecentSpreadData(null)
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Spread[]> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503526481"));
 

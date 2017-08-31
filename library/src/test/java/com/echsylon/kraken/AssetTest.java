@@ -37,7 +37,7 @@ public class AssetTest {
 
     @Test
     public void requestingAssets_shouldReturnMapOfParsedAssetObjects() throws Exception {
-        atlantis = MockHelper.start("GET", "/0/public/Assets\\?.*",
+        atlantis = MockHelper.start("GET", "/0/public/Assets",
                 "{'error': [], 'result': {" +
                         " 'XYZ': {" +
                         " 'aclass': 'test_class'," +
@@ -45,12 +45,12 @@ public class AssetTest {
                         " 'decimals': 10," +
                         " 'display_decimals': 5}}}");
 
-        DefaultRequest<Dictionary<Asset>> request =
-                (DefaultRequest<Dictionary<Asset>>) new Kraken("http://localhost:8080")
-                        .getAssetInfo("info", "currency")
-                        .enqueue();
+        Dictionary<Asset> result =
+                ((DefaultRequest<Dictionary<Asset>>) new Kraken("http://localhost:8080")
+                        .getAssetInfo()
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<Asset> result = request.get(1, SECONDS); // Blocks until Kraken delivers
         assertThat(result.size(), is(1));
 
         Asset asset = result.get("XYZ");

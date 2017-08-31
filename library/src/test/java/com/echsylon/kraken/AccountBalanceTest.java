@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -44,14 +45,13 @@ public class AccountBalanceTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<Dictionary<String>> request =
-                (DefaultRequest<Dictionary<String>>) new Kraken("http://localhost:8080", key, secret)
+        Dictionary<String> result =
+                ((DefaultRequest<Dictionary<String>>) new Kraken("http://localhost:8080", key, secret)
                         .getAccountBalance()
-                        .enqueue();
+                        .enqueue())
+                        .get(1, SECONDS);
 
-        Dictionary<String> result = request.get(); // Blocks until Kraken delivers
         assertThat(result.size(), is(2));
-
         assertThat(result.get("ZEUR"), is("0.0000"));
         assertThat(result.get("XETH"), is("21.1589468600"));
     }

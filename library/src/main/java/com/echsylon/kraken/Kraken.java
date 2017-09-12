@@ -7,6 +7,7 @@ import com.echsylon.kraken.request.AddOrderRequestBuilder;
 import com.echsylon.kraken.request.AssetInfoRequestBuilder;
 import com.echsylon.kraken.request.CancelOrderRequestBuilder;
 import com.echsylon.kraken.request.ClosedOrdersRequestBuilder;
+import com.echsylon.kraken.request.DepositAddressesRequestBuilder;
 import com.echsylon.kraken.request.DepositMethodsRequestBuilder;
 import com.echsylon.kraken.request.LedgersRequestBuilder;
 import com.echsylon.kraken.request.OhlcDataRequestBuilder;
@@ -376,6 +377,21 @@ public class Kraken {
      */
     public DepositMethodsRequestBuilder getDepositMethods() {
         return new DepositMethodsRequestBuilder(callCounter, baseUrl, key, secret);
+    }
+
+    /**
+     * Retrieves available funding addresses for a currency.
+     *
+     * @param asset  The deposit asset.
+     * @param method The name of the deposit method.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
+     */
+    public DepositAddressesRequestBuilder getDepositAddresses(final String asset,
+                                                              final String method) {
+        return new DepositAddressesRequestBuilder(callCounter, baseUrl, key, secret)
+                .useAsset(asset)
+                .useMethod(method);
     }
 
 }

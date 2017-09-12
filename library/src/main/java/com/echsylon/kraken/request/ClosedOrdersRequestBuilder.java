@@ -55,7 +55,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      * @param includeTrades Whether to include trades. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useTradesFlag(boolean includeTrades) {
+    public ClosedOrdersRequestBuilder useTradesFlag(final boolean includeTrades) {
         data.put("trades", asString(includeTrades));
         return this;
     }
@@ -66,7 +66,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      * @param userReferenceId Restrict results to given user reference id.
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useReference(String userReferenceId) {
+    public ClosedOrdersRequestBuilder useReference(final String userReferenceId) {
         data.put("userref", userReferenceId);
         return this;
     }
@@ -77,7 +77,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      * @param start Start time or transaction id of results. Exclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useStartTag(String start) {
+    public ClosedOrdersRequestBuilder useStartTag(final String start) {
         data.put("start", start);
         return this;
     }
@@ -88,7 +88,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      * @param end End time or transaction id of results. Inclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useEndTag(String end) {
+    public ClosedOrdersRequestBuilder useEndTag(final String end) {
         data.put("end", end);
         return this;
     }
@@ -99,7 +99,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      * @param offset Result offset.
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useOffset(int offset) {
+    public ClosedOrdersRequestBuilder useOffset(final int offset) {
         data.put("ofs", asString(offset));
         return this;
     }
@@ -111,7 +111,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
      *                  "close".
      * @return This request builder instance allowing method call chaining.
      */
-    public ClosedOrdersRequestBuilder useCloseTime(String closeTime) {
+    public ClosedOrdersRequestBuilder useCloseTime(final String closeTime) {
         data.put("closetime", closeTime);
         return this;
     }

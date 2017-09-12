@@ -55,7 +55,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      * @param assetClass The type of asset. Defaults to "currency".
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useAssetClass(String assetClass) {
+    public LedgersRequestBuilder useAssetClass(final String assetClass) {
         data.put("aclass", assetClass);
         return this;
     }
@@ -67,7 +67,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      *             "withdrawal", "trade", "margin".
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useType(String type) {
+    public LedgersRequestBuilder useType(final String type) {
         data.put("type", type);
         return this;
     }
@@ -78,7 +78,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      * @param start Start time or ledger id of results. Exclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useStartTag(String start) {
+    public LedgersRequestBuilder useStartTag(final String start) {
         data.put("start", start);
         return this;
     }
@@ -89,7 +89,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      * @param end End time or ledger id of results. Inclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useEndTag(String end) {
+    public LedgersRequestBuilder useEndTag(final String end) {
         data.put("end", end);
         return this;
     }
@@ -100,7 +100,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      * @param offset Result offset.
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useOffset(int offset) {
+    public LedgersRequestBuilder useOffset(final int offset) {
         data.put("ofs", asString(offset));
         return this;
     }
@@ -111,7 +111,7 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
      * @param assets Assets to restrict result to. Defaults to all.
      * @return This request builder instance allowing method call chaining.
      */
-    public LedgersRequestBuilder useAsset(String... assets) {
+    public LedgersRequestBuilder useAsset(final String... assets) {
         data.put("asset", join(assets));
         return this;
     }

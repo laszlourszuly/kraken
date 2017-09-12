@@ -57,7 +57,7 @@ public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHi
      *                              position. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryTradesRequestBuilder useTradesFlag(boolean includePositionTrades) {
+    public QueryTradesRequestBuilder useTradesFlag(final boolean includePositionTrades) {
         data.put("trades", asString(includePositionTrades));
         return this;
     }
@@ -69,7 +69,7 @@ public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHi
      *                       least one is required.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryTradesRequestBuilder useTransactions(String... transactionIds) {
+    public QueryTradesRequestBuilder useTransactions(final String... transactionIds) {
         data.put("txid", join(transactionIds));
         return this;
     }

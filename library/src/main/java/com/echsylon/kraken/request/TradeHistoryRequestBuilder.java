@@ -56,7 +56,7 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
      *             position".
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeHistoryRequestBuilder useType(String type) {
+    public TradeHistoryRequestBuilder useType(final String type) {
         data.put("type", type);
         return this;
     }
@@ -67,7 +67,7 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
      * @param includeTrades Whether to include trades. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeHistoryRequestBuilder useTradesFlag(boolean includeTrades) {
+    public TradeHistoryRequestBuilder useTradesFlag(final boolean includeTrades) {
         data.put("trades", asString(includeTrades));
         return this;
     }
@@ -78,7 +78,7 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
      * @param start Start time or transaction id of results. Exclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeHistoryRequestBuilder useStartTag(String start) {
+    public TradeHistoryRequestBuilder useStartTag(final String start) {
         data.put("start", start);
         return this;
     }
@@ -89,7 +89,7 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
      * @param end End time or transaction id of results. Inclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeHistoryRequestBuilder useEndTag(String end) {
+    public TradeHistoryRequestBuilder useEndTag(final String end) {
         data.put("end", end);
         return this;
     }
@@ -100,7 +100,7 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
      * @param offset Result offset.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeHistoryRequestBuilder useOffset(int offset) {
+    public TradeHistoryRequestBuilder useOffset(final int offset) {
         data.put("ofs", asString(offset));
         return this;
     }

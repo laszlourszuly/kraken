@@ -55,7 +55,7 @@ public class QueryLedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger
      * @param ledgerIds Id of ledgers to get. 20 max, at least one is required.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryLedgersRequestBuilder useLedgers(String... ledgerIds) {
+    public QueryLedgersRequestBuilder useLedgers(final String... ledgerIds) {
         data.put("id", join(ledgerIds));
         return this;
     }

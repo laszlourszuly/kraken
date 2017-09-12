@@ -55,7 +55,7 @@ public class OpenOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>> 
      * @param includeTrades Whether to include trades. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public OpenOrdersRequestBuilder useTradesFlag(boolean includeTrades) {
+    public OpenOrdersRequestBuilder useTradesFlag(final boolean includeTrades) {
         data.put("trades", asString(includeTrades));
         return this;
     }
@@ -66,7 +66,7 @@ public class OpenOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>> 
      * @param userReferenceId Restrict results to given user reference id.
      * @return This request builder instance allowing method call chaining.
      */
-    public OpenOrdersRequestBuilder useReference(String userReferenceId) {
+    public OpenOrdersRequestBuilder useReference(final String userReferenceId) {
         data.put("userref", userReferenceId);
         return this;
     }

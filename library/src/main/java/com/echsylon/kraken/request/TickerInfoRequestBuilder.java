@@ -43,7 +43,7 @@ public class TickerInfoRequestBuilder extends RequestBuilder<Dictionary<Ticker>>
      * @param pairs The asset pairs to get information on.
      * @return This request builder instance allowing method call chaining.
      */
-    public TickerInfoRequestBuilder useAssetPairs(String... pairs) {
+    public TickerInfoRequestBuilder useAssetPairs(final String... pairs) {
         data.put("pair", join(pairs));
         return this;
     }

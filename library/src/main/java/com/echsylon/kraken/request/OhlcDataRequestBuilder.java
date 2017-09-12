@@ -43,7 +43,7 @@ public class OhlcDataRequestBuilder extends RequestBuilder<Dictionary<Ohlc[]>> {
      * @param pair The asset pair to get OHLC data for.
      * @return This request builder instance allowing method call chaining.
      */
-    public OhlcDataRequestBuilder useAssetPair(String pair) {
+    public OhlcDataRequestBuilder useAssetPair(final String pair) {
         data.put("pair", pair);
         return this;
     }
@@ -56,7 +56,7 @@ public class OhlcDataRequestBuilder extends RequestBuilder<Dictionary<Ohlc[]>> {
      *                 21600
      * @return This request builder instance allowing method call chaining.
      */
-    public OhlcDataRequestBuilder useInterval(int interval) {
+    public OhlcDataRequestBuilder useInterval(final int interval) {
         data.put("interval", asString(interval));
         return this;
     }
@@ -68,7 +68,7 @@ public class OhlcDataRequestBuilder extends RequestBuilder<Dictionary<Ohlc[]>> {
      *                OHLC data from.
      * @return This request builder instance allowing method call chaining.
      */
-    public OhlcDataRequestBuilder useSinceId(String sinceId) {
+    public OhlcDataRequestBuilder useSinceId(final String sinceId) {
         data.put("since", sinceId);
         return this;
     }

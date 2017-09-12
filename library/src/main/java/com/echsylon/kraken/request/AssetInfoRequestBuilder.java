@@ -43,7 +43,7 @@ public class AssetInfoRequestBuilder extends RequestBuilder<Dictionary<Asset>> {
      * @param info The level of information to get.
      * @return This request builder instance allowing method call chaining.
      */
-    public AssetInfoRequestBuilder useInfo(String info) {
+    public AssetInfoRequestBuilder useInfo(final String info) {
         data.put("info", info);
         return this;
     }
@@ -54,7 +54,7 @@ public class AssetInfoRequestBuilder extends RequestBuilder<Dictionary<Asset>> {
      * @param assetClass The type of the asset to fetch info on.
      * @return This request builder instance allowing method call chaining.
      */
-    public AssetInfoRequestBuilder useAssetClass(String assetClass) {
+    public AssetInfoRequestBuilder useAssetClass(final String assetClass) {
         data.put("aclass", assetClass);
         return this;
     }
@@ -65,7 +65,7 @@ public class AssetInfoRequestBuilder extends RequestBuilder<Dictionary<Asset>> {
      * @param assets The assets to get info on.
      * @return This request builder instance allowing method call chaining.
      */
-    public AssetInfoRequestBuilder useAssets(String... assets) {
+    public AssetInfoRequestBuilder useAssets(final String... assets) {
         data.put("assets", join(assets));
         return this;
     }

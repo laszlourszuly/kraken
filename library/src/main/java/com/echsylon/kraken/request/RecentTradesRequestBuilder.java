@@ -41,7 +41,7 @@ public class RecentTradesRequestBuilder extends RequestBuilder<Dictionary<Trade[
      * @param pair The asset pair to get recent trades for.
      * @return This request builder instance allowing method call chaining.
      */
-    public RecentTradesRequestBuilder useAssetPair(String pair) {
+    public RecentTradesRequestBuilder useAssetPair(final String pair) {
         data.put("pair", pair);
         return this;
     }
@@ -52,7 +52,7 @@ public class RecentTradesRequestBuilder extends RequestBuilder<Dictionary<Trade[
      * @param sinceId The trade id of the previous poll. Exclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public RecentTradesRequestBuilder useSinceId(String sinceId) {
+    public RecentTradesRequestBuilder useSinceId(final String sinceId) {
         data.put("since", sinceId);
         return this;
     }

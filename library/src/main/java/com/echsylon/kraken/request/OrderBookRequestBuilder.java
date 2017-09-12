@@ -43,7 +43,7 @@ public class OrderBookRequestBuilder extends RequestBuilder<Dictionary<Depth>> {
      * @param pair The asset pair to get the market depth for.
      * @return This request builder instance allowing method call chaining.
      */
-    public OrderBookRequestBuilder useAssetPair(String pair) {
+    public OrderBookRequestBuilder useAssetPair(final String pair) {
         data.put("pair", pair);
         return this;
     }
@@ -54,7 +54,7 @@ public class OrderBookRequestBuilder extends RequestBuilder<Dictionary<Depth>> {
      * @param count The maximum number of asks or bids.
      * @return This request builder instance allowing method call chaining.
      */
-    public OrderBookRequestBuilder useCount(int count) {
+    public OrderBookRequestBuilder useCount(final int count) {
         data.put("count", asString(count));
         return this;
     }

@@ -48,7 +48,7 @@ public class CancelOrderRequestBuilder extends RequestBuilder<OrderCancelReceipt
      * @param id The transaction or user reference id of the order(s) to close.
      * @return This request builder instance allowing method call chaining.
      */
-    public CancelOrderRequestBuilder useOrderId(String id) {
+    public CancelOrderRequestBuilder useOrderId(final String id) {
         data.put("txid", id);
         return this;
     }

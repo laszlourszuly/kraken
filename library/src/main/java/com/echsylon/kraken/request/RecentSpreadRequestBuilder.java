@@ -41,7 +41,7 @@ public class RecentSpreadRequestBuilder extends RequestBuilder<Dictionary<Spread
      * @param pair The asset pair to get recent spread data for.
      * @return This request builder instance allowing method call chaining.
      */
-    public RecentSpreadRequestBuilder useAssetPair(String pair) {
+    public RecentSpreadRequestBuilder useAssetPair(final String pair) {
         data.put("pair", pair);
         return this;
     }
@@ -52,7 +52,7 @@ public class RecentSpreadRequestBuilder extends RequestBuilder<Dictionary<Spread
      * @param sinceId The spread id of the previous poll. Inclusive.
      * @return This request builder instance allowing method call chaining.
      */
-    public RecentSpreadRequestBuilder useSinceId(String sinceId) {
+    public RecentSpreadRequestBuilder useSinceId(final String sinceId) {
         data.put("since", sinceId);
         return this;
     }

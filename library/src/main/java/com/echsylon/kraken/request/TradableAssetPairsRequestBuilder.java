@@ -44,7 +44,7 @@ public class TradableAssetPairsRequestBuilder extends RequestBuilder<Dictionary<
      *             default), "leverage", "fees", "margin"
      * @return This request builder instance allowing method call chaining.
      */
-    public TradableAssetPairsRequestBuilder useInfo(String info) {
+    public TradableAssetPairsRequestBuilder useInfo(final String info) {
         data.put("info", info);
         return this;
     }
@@ -55,7 +55,7 @@ public class TradableAssetPairsRequestBuilder extends RequestBuilder<Dictionary<
      * @param pairs The asset pairs to get information on. Defaults to all.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradableAssetPairsRequestBuilder useAssetPairs(String... pairs) {
+    public TradableAssetPairsRequestBuilder useAssetPairs(final String... pairs) {
         data.put("pair", join(pairs));
         return this;
     }

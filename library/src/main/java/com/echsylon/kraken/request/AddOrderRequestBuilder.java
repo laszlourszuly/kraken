@@ -51,7 +51,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param assetPair Asset pair of the new order.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useAssetPair(String assetPair) {
+    public AddOrderRequestBuilder useAssetPair(final String assetPair) {
         data.put("pair", assetPair);
         return this;
     }
@@ -62,7 +62,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param type Nature of the order. Options: "buy", "sell".
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useType(String type) {
+    public AddOrderRequestBuilder useType(final String type) {
         data.put("type", type);
         return this;
     }
@@ -77,7 +77,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      *                  "stop-loss-and-limit", "settle-position".
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useOrderType(String orderType) {
+    public AddOrderRequestBuilder useOrderType(final String orderType) {
         data.put("ordertype", orderType);
         return this;
     }
@@ -88,7 +88,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param price The price (depends on order type).
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder usePrice(String price) {
+    public AddOrderRequestBuilder usePrice(final String price) {
         data.put("price", price);
         return this;
     }
@@ -110,7 +110,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param volume Order volume in lots.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useVolume(String volume) {
+    public AddOrderRequestBuilder useVolume(final String volume) {
         data.put("volume", volume);
         return this;
     }
@@ -121,7 +121,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param leverage Amount of desired leverage. Defaults to none.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useLeverage(String leverage) {
+    public AddOrderRequestBuilder useLeverage(final String leverage) {
         data.put("leverage", leverage);
         return this;
     }
@@ -133,7 +133,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      *              See API documentation for details.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useOrderFlags(String... flags) {
+    public AddOrderRequestBuilder useOrderFlags(final String... flags) {
         data.put("oflags", join(flags));
         return this;
     }
@@ -145,7 +145,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      *                  (default), +[n], [n].
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useStartTime(String startTime) {
+    public AddOrderRequestBuilder useStartTime(final String startTime) {
         data.put("starttm", startTime);
         return this;
     }
@@ -157,7 +157,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      *                   (no exp. default), +[n], [n].
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useExpireTime(String expireTime) {
+    public AddOrderRequestBuilder useExpireTime(final String expireTime) {
         data.put("expiretm", expireTime);
         return this;
     }
@@ -168,7 +168,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param userReference User reference id. 32-bit, signed.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useReference(String userReference) {
+    public AddOrderRequestBuilder useReference(final String userReference) {
         data.put("userref", userReference);
         return this;
     }
@@ -179,7 +179,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param closeOrderType Closing order type.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useCloseOrderType(String closeOrderType) {
+    public AddOrderRequestBuilder useCloseOrderType(final String closeOrderType) {
         data.put("close[ordertype]", closeOrderType);
         return this;
     }
@@ -190,7 +190,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param closePrice Closing order price.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useClosePrice(String closePrice) {
+    public AddOrderRequestBuilder useClosePrice(final String closePrice) {
         data.put("close[price]", closePrice);
         return this;
     }
@@ -201,7 +201,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param closeSecondaryPrice Closing order secondary price.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useSecondaryClosePrice(String closeSecondaryPrice) {
+    public AddOrderRequestBuilder useSecondaryClosePrice(final String closeSecondaryPrice) {
         data.put("close[price2]", closeSecondaryPrice);
         return this;
     }
@@ -212,7 +212,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @param validateOnly Validate only, do not submit order.
      * @return This request builder instance allowing method call chaining.
      */
-    public AddOrderRequestBuilder useValidateOnlyFlag(boolean validateOnly) {
+    public AddOrderRequestBuilder useValidateOnlyFlag(final boolean validateOnly) {
         data.put("validate", asString(validateOnly));
         return this;
     }

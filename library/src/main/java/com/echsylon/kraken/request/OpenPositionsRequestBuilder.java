@@ -57,7 +57,7 @@ public class OpenPositionsRequestBuilder extends RequestBuilder<Dictionary<Posit
      *                            Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public OpenPositionsRequestBuilder useCalculationsFlag(boolean performCalculations) {
+    public OpenPositionsRequestBuilder useCalculationsFlag(final boolean performCalculations) {
         data.put("docalcs", asString(performCalculations));
         return this;
     }
@@ -68,7 +68,7 @@ public class OpenPositionsRequestBuilder extends RequestBuilder<Dictionary<Posit
      * @param transactionIds Transaction ids to restrict the result to.
      * @return This request builder instance allowing method call chaining.
      */
-    public OpenPositionsRequestBuilder useTransactions(String... transactionIds) {
+    public OpenPositionsRequestBuilder useTransactions(final String... transactionIds) {
         data.put("txid", join(transactionIds));
         return this;
     }

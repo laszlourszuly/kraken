@@ -48,7 +48,7 @@ public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance> {
      * @param assetClass The type of the base asset. Defaults to "currency".
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeBalanceRequestBuilder useAssetClass(String assetClass) {
+    public TradeBalanceRequestBuilder useAssetClass(final String assetClass) {
         data.put("aclass", assetClass);
         return this;
     }
@@ -60,7 +60,7 @@ public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance> {
      *                   Defaults to "ZUSD".
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeBalanceRequestBuilder useBaseAsset(String baseAssets) {
+    public TradeBalanceRequestBuilder useBaseAsset(final String baseAssets) {
         data.put("asset", baseAssets);
         return this;
     }

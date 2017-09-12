@@ -52,7 +52,7 @@ public class TradeVolumeRequestBuilder extends RequestBuilder<TradeVolume> {
      * @param includeFeeInfo Whether to include fee info. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeVolumeRequestBuilder useFeeInfoFlag(boolean includeFeeInfo) {
+    public TradeVolumeRequestBuilder useFeeInfoFlag(final boolean includeFeeInfo) {
         data.put("fee-info", asString(includeFeeInfo));
         return this;
     }
@@ -63,7 +63,7 @@ public class TradeVolumeRequestBuilder extends RequestBuilder<TradeVolume> {
      * @param pairs The fee info asset pairs.
      * @return This request builder instance allowing method call chaining.
      */
-    public TradeVolumeRequestBuilder useAssetPairs(String... pairs) {
+    public TradeVolumeRequestBuilder useAssetPairs(final String... pairs) {
         data.put("pair", join(pairs));
         return this;
     }

@@ -56,7 +56,7 @@ public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>>
      * @param includeTrades Whether to include trades. Defaults to false.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryOrdersRequestBuilder useTradesFlag(boolean includeTrades) {
+    public QueryOrdersRequestBuilder useTradesFlag(final boolean includeTrades) {
         data.put("trades", asString(includeTrades));
         return this;
     }
@@ -67,7 +67,7 @@ public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>>
      * @param userReferenceId Restrict results to given user reference id.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryOrdersRequestBuilder useReference(String userReferenceId) {
+    public QueryOrdersRequestBuilder useReference(final String userReferenceId) {
         data.put("userref", userReferenceId);
         return this;
     }
@@ -79,7 +79,7 @@ public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>>
      *                       least one is required.
      * @return This request builder instance allowing method call chaining.
      */
-    public QueryOrdersRequestBuilder useTransactions(String... transactionIds) {
+    public QueryOrdersRequestBuilder useTransactions(final String... transactionIds) {
         data.put("txid", join(transactionIds));
         return this;
     }

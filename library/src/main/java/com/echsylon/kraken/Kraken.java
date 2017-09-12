@@ -26,6 +26,7 @@ import com.echsylon.kraken.request.TradableAssetPairsRequestBuilder;
 import com.echsylon.kraken.request.TradeBalanceRequestBuilder;
 import com.echsylon.kraken.request.TradeHistoryRequestBuilder;
 import com.echsylon.kraken.request.TradeVolumeRequestBuilder;
+import com.echsylon.kraken.request.WithdrawCancellationRequestBuilder;
 import com.echsylon.kraken.request.WithdrawInfoRequestBuilder;
 import com.echsylon.kraken.request.WithdrawRequestBuilder;
 import com.echsylon.kraken.request.WithdrawStatusesRequestBuilder;
@@ -456,6 +457,19 @@ public class Kraken {
                 .useAsset(asset)
                 .useKey(receiver)
                 .useAmount(amount);
+    }
+
+    /**
+     * Requests a cancellation of a previously placed withdrawal. NOTE! that the
+     * cancellation can't be guaranteed.
+     *
+     * @param referenceId The reference id of the withdrawal to cancel.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
+     */
+    public WithdrawCancellationRequestBuilder requestWithdrawCancellation(final String referenceId) {
+        return new WithdrawCancellationRequestBuilder(callCounter, baseUrl, key, secret)
+                .useReferenceId(referenceId);
     }
 
 }

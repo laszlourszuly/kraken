@@ -7,6 +7,7 @@ import com.echsylon.kraken.request.AddOrderRequestBuilder;
 import com.echsylon.kraken.request.AssetInfoRequestBuilder;
 import com.echsylon.kraken.request.CancelOrderRequestBuilder;
 import com.echsylon.kraken.request.ClosedOrdersRequestBuilder;
+import com.echsylon.kraken.request.DepositMethodsRequestBuilder;
 import com.echsylon.kraken.request.LedgersRequestBuilder;
 import com.echsylon.kraken.request.OhlcDataRequestBuilder;
 import com.echsylon.kraken.request.OpenOrdersRequestBuilder;
@@ -363,6 +364,18 @@ public class Kraken {
     public CancelOrderRequestBuilder cancelOpenOrder(final String id) {
         return new CancelOrderRequestBuilder(callCounter, baseUrl, key, secret)
                 .useOrderId(id);
+    }
+
+    // Private user funding - tentative API
+
+    /**
+     * Retrieves available funding methods for a currency (defaults to ZUSD).
+     *
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
+     */
+    public DepositMethodsRequestBuilder getDepositMethods() {
+        return new DepositMethodsRequestBuilder(callCounter, baseUrl, key, secret);
     }
 
 }

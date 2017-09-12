@@ -1,4 +1,4 @@
-package com.echsylon.kraken.exception;
+package com.echsylon.kraken;
 
 import static android.text.TextUtils.join;
 

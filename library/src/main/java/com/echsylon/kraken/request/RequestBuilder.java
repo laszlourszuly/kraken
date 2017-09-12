@@ -4,7 +4,7 @@ import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.blocks.callback.Request;
 import com.echsylon.blocks.network.NetworkClient;
 import com.echsylon.blocks.network.OkHttpNetworkClient;
-import com.echsylon.kraken.exception.KrakenRequestException;
+import com.echsylon.kraken.KrakenRequestException;
 import com.echsylon.kraken.internal.CallCounter;
 import com.echsylon.kraken.internal.KrakenTypeAdapterFactory;
 import com.google.gson.GsonBuilder;

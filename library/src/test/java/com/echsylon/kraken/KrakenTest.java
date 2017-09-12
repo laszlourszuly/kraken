@@ -3,7 +3,6 @@ package com.echsylon.kraken;
 import com.echsylon.atlantis.Atlantis;
 import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.dto.Time;
-import com.echsylon.kraken.exception.KrakenRequestException;
 
 import org.junit.After;
 import org.junit.Test;

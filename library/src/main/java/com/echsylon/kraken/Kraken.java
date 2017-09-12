@@ -346,6 +346,10 @@ public class Kraken {
     /**
      * Adds a regular sell or buy order
      *
+     * @param pair      The asset pair to place the order for.
+     * @param type      The type of transaction (buy/sell).
+     * @param orderType The of order (market, limit, etc).
+     * @param price     The amount of funds to move with the order.
      * @return A request builder object to configure the request and any client
      * side cache metrics with, and to attach any callback implementations to.
      */

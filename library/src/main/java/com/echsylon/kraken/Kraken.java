@@ -26,6 +26,7 @@ import com.echsylon.kraken.request.TradableAssetPairsRequestBuilder;
 import com.echsylon.kraken.request.TradeBalanceRequestBuilder;
 import com.echsylon.kraken.request.TradeHistoryRequestBuilder;
 import com.echsylon.kraken.request.TradeVolumeRequestBuilder;
+import com.echsylon.kraken.request.WithdrawInfoRequestBuilder;
 
 import java.io.File;
 
@@ -407,4 +408,21 @@ public class Kraken {
                 .useAsset(asset);
     }
 
+    /**
+     * Retrieves information about a possible withdrawal.
+     *
+     * @param asset    The asset to withdraw.
+     * @param receiver The receiving key of the withdrawal.
+     * @param amount   The amount of assets to withdraw.
+     * @return A request builder object to configure any client side cache
+     * metrics with and to attach any callback implementations to.
+     */
+    public WithdrawInfoRequestBuilder getWithdrawInfo(final String asset,
+                                                      final String receiver,
+                                                      final float amount) {
+        return new WithdrawInfoRequestBuilder(callCounter, baseUrl, key, secret)
+                .useAsset(asset)
+                .useKey(receiver)
+                .useAmount(amount);
+    }
 }

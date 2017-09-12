@@ -13,7 +13,7 @@ import com.echsylon.kraken.internal.CallCounter;
 public class CancelOrderRequestBuilder extends RequestBuilder<OrderCancelReceipt> {
 
     /**
-     * Constructor, intentionally hidden from public use.
+     * Creates a new request builder.
      *
      * @param callCounter The request call counter. May be null.
      * @param baseUrl     The base url of the request.

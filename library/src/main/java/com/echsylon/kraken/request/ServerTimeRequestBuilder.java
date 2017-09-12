@@ -13,6 +13,14 @@ import com.echsylon.kraken.internal.CallCounter;
 @SuppressWarnings("WeakerAccess")
 public class ServerTimeRequestBuilder extends RequestBuilder<Time> {
 
+    /**
+     * Creates a new request builder.
+     *
+     * @param callCounter The request call counter. May be null.
+     * @param baseUrl     The base url of the request.
+     * @param key         The user API key.
+     * @param secret      The corresponding secret.
+     */
     public ServerTimeRequestBuilder(final CallCounter callCounter,
                                     final String baseUrl,
                                     final String key,

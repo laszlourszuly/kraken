@@ -64,14 +64,15 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
     private final Type typeOfResult;
     private final CallCounter callCounter;
 
-    public RequestBuilder(final int cost,
-                          final CallCounter callCounter,
-                          final String key,
-                          final byte[] secret,
-                          final String baseUrl,
-                          final String method,
-                          final String path,
-                          final Type typeOfResult) {
+
+    protected RequestBuilder(final int cost,
+                             final CallCounter callCounter,
+                             final String key,
+                             final byte[] secret,
+                             final String baseUrl,
+                             final String method,
+                             final String path,
+                             final Type typeOfResult) {
 
         this.cost = cost;
         this.callCounter = callCounter;

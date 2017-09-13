@@ -101,5 +101,15 @@ privateKrakenClient
 
 Note that the secret needs to be provided in its Base64 encoded form, as presented when you create the corresponding API key in the Kraken Web UI.
 
+# Dependencies
+This Kraken API client has only one direct dependency; the [Blocks network abstraction layer](https://github.com/echsylon/blocks-network). That library in turn depends on:
+
+* [Square okhttp](https://github.com/square/okhttp) for networking
+* [Google gson](https://github.com/google/gson) for JSON parsing
+* [Annimon stream API](https://github.com/aNNiMON/Lightweight-Stream-API) a Java 8 stream backport
+* [Evant Gradle Retrolambda](https://github.com/evant/gradle-retrolambda) a Java 8 lambdas backport
+
+All dependencies are open sourced under the Apache 2.0 License.
+
 # Questions?
 Feel free to [raise a ticket](https://github.com/echsylon/kraken/issues) if you find a bug, would like something to change (actually I'd consider buying you a beer if you submit a pull request with a suggested change), or just want to discuss a topic.

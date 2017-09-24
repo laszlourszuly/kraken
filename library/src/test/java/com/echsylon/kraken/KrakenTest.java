@@ -140,14 +140,14 @@ public class KrakenTest {
 
             Thread.sleep(3000);
 
-            DefaultRequest<Time> request = (DefaultRequest<Time>) kraken
-                    .getServerTime()
-                    .enqueue();
-
             long startSeconds = System.currentTimeMillis() / 1000L;
-            request.get(1, SECONDS);
-            long stopSeconds = System.currentTimeMillis() / 1000L;
 
+            ((DefaultRequest<Time>) kraken
+                    .getServerTime()
+                    .enqueue())
+                    .get(4, SECONDS);
+
+            long stopSeconds = System.currentTimeMillis() / 1000L;
             assertThat(stopSeconds - startSeconds, is(0L));
         } finally {
             Kraken.clearCallRateLimit();

@@ -213,7 +213,7 @@ public class AddOrderRequestBuilder extends RequestBuilder<OrderAddReceipt> {
      * @return This request builder instance allowing method call chaining.
      */
     public AddOrderRequestBuilder useValidateOnlyFlag(final boolean validateOnly) {
-        data.put("validate", asString(validateOnly));
+        if(validateOnly) data.put("validate", asString(validateOnly));
         return this;
     }
 

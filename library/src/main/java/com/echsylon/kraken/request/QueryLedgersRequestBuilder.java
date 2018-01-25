@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class QueryLedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
+public class QueryLedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>, QueryLedgersRequestBuilder> {
 
     /**
      * Creates a new request builder.

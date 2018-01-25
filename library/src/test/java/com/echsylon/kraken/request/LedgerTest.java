@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.Dictionary;
 import com.echsylon.kraken.dto.Ledger;
 
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertThat;
  * These test cases will test the "ledgers" feature of the Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a
  * result is produced.
  */
@@ -58,11 +57,10 @@ public class LedgerTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        Dictionary<Ledger> result =
-                ((DefaultRequest<Dictionary<Ledger>>) getKrakenInstance(key, secret)
-                        .getLedgersInfo()
-                        .enqueue()).
-                        get(1, SECONDS);
+        Dictionary<Ledger> result = getKrakenInstance(key, secret)
+                .getLedgersInfo()
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.count, is(521));

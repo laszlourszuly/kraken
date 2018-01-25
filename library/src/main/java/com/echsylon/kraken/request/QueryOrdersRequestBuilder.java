@@ -16,7 +16,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>> {
+public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>, QueryOrdersRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -75,8 +75,8 @@ public class QueryOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>>
     /**
      * Sets the transaction ids request property.
      *
-     * @param transactionIds Transaction ids of the orders to get. 20 max, at
-     *                       least one is required.
+     * @param transactionIds Transaction ids of the orders to get. 20 max, at least one is
+     *                       required.
      * @return This request builder instance allowing method call chaining.
      */
     public QueryOrdersRequestBuilder useTransactions(final String... transactionIds) {

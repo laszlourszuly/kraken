@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.asString;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class OhlcDataRequestBuilder extends RequestBuilder<Dictionary<Ohlc[]>> {
+public class OhlcDataRequestBuilder extends RequestBuilder<Dictionary<Ohlc[]>, OhlcDataRequestBuilder> {
 
     /**
      * Creates a new request builder.

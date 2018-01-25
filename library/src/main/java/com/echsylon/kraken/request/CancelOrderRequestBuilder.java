@@ -10,7 +10,7 @@ import com.echsylon.kraken.internal.CallCounter;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class CancelOrderRequestBuilder extends RequestBuilder<OrderCancelReceipt> {
+public class CancelOrderRequestBuilder extends RequestBuilder<OrderCancelReceipt, CancelOrderRequestBuilder> {
 
     /**
      * Creates a new request builder.

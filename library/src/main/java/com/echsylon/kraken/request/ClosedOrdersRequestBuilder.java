@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.asString;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>> {
+public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>, ClosedOrdersRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -107,8 +107,7 @@ public class ClosedOrdersRequestBuilder extends RequestBuilder<Dictionary<Order>
     /**
      * Sets the close time request property.
      *
-     * @param closeTime Which time to use. Options: "both" (default), "open",
-     *                  "close".
+     * @param closeTime Which time to use. Options: "both" (default), "open", "close".
      * @return This request builder instance allowing method call chaining.
      */
     public ClosedOrdersRequestBuilder useCloseTime(final String closeTime) {

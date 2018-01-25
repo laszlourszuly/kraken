@@ -1,8 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
-import com.echsylon.kraken.dto.DepositStatus;
 import com.echsylon.kraken.dto.WithdrawInfo;
 
 import org.junit.After;
@@ -22,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -51,11 +49,10 @@ public class WithdrawInfoTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        WithdrawInfo result =
-                ((DefaultRequest<WithdrawInfo>) getKrakenInstance(key, secret)
-                        .getWithdrawInfo("asset", "key", 1.0f)
-                        .enqueue())
-                        .get(1, SECONDS);
+        WithdrawInfo result = getKrakenInstance(key, secret)
+                .getWithdrawInfo("asset", "key", 1.0f)
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.method, is("Ether"));
         assertThat(result.limit, is("1.0000000000"));

@@ -1,8 +1,8 @@
 package com.echsylon.kraken;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.dto.Time;
+import com.echsylon.kraken.request.Request;
 
 import org.junit.After;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
  * These test cases will test the core capabilities of the Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -46,10 +46,9 @@ public class KrakenTest {
         atlantis = startMockServer("GET", "/0/public/Time",
                 "{'error': ['Some:Error:Structure']}");
 
-        DefaultRequest<Time> request =
-                (DefaultRequest<Time>) getKrakenInstance()
-                        .getServerTime()
-                        .enqueue();
+        Request<Time> request = getKrakenInstance()
+                .getServerTime()
+                .enqueue();
 
         assertThatThrownBy(() -> request.get(1, SECONDS))
                 .isInstanceOf(ExecutionException.class)
@@ -63,10 +62,9 @@ public class KrakenTest {
                         " 'unixtime': 0," +
                         " 'rfc1123': 'some_rfc1123_time'}}");
 
-        DefaultRequest<Time> request =
-                (DefaultRequest<Time>) getKrakenInstance()
-                        .getServerTime()
-                        .enqueue();
+        Request<Time> request = getKrakenInstance()
+                .getServerTime()
+                .enqueue();
 
         assertThat(request.get(1, SECONDS), is(notNullValue()));
     }
@@ -76,10 +74,9 @@ public class KrakenTest {
         atlantis = startMockServer("POST", "/0/private/Balance",
                 "{'error': [], 'result': {}}");
 
-        DefaultRequest<?> request =
-                (DefaultRequest<?>) getKrakenInstance()
-                        .getAccountBalance()
-                        .enqueue();
+        Request<?> request = getKrakenInstance()
+                .getAccountBalance()
+                .enqueue();
 
         assertThatThrownBy(() -> request.get(1, SECONDS))
                 .isInstanceOf(ExecutionException.class)
@@ -94,10 +91,9 @@ public class KrakenTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        DefaultRequest<?> request =
-                (DefaultRequest<?>) getKrakenInstance(key, secret)
-                        .getAccountBalance()
-                        .enqueue();
+        Request<?> request = getKrakenInstance(key, secret)
+                .getAccountBalance()
+                .enqueue();
 
         assertThat(request.get(1, SECONDS), is(notNullValue()));
     }
@@ -115,9 +111,8 @@ public class KrakenTest {
 
             long startSeconds = System.currentTimeMillis() / 1000L;
 
-            ((DefaultRequest<Time>) kraken
-                    .getServerTime()
-                    .enqueue())
+            kraken.getServerTime()
+                    .enqueue()
                     .get(4, SECONDS);
 
             long stopSeconds = System.currentTimeMillis() / 1000L;
@@ -142,9 +137,8 @@ public class KrakenTest {
 
             long startSeconds = System.currentTimeMillis() / 1000L;
 
-            ((DefaultRequest<Time>) kraken
-                    .getServerTime()
-                    .enqueue())
+            kraken.getServerTime()
+                    .enqueue()
                     .get(4, SECONDS);
 
             long stopSeconds = System.currentTimeMillis() / 1000L;

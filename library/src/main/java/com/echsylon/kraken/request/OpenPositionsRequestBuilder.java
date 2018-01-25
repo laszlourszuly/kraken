@@ -16,7 +16,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class OpenPositionsRequestBuilder extends RequestBuilder<Dictionary<Position>> {
+public class OpenPositionsRequestBuilder extends RequestBuilder<Dictionary<Position>, OpenPositionsRequestBuilder> {
 
     /**
      * Creates a new request builder.

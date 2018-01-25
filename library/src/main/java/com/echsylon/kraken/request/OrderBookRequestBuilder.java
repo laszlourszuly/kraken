@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.asString;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class OrderBookRequestBuilder extends RequestBuilder<Dictionary<Depth>> {
+public class OrderBookRequestBuilder extends RequestBuilder<Dictionary<Depth>, OrderBookRequestBuilder> {
 
     /**
      * Creates a new request builder.

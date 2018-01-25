@@ -12,7 +12,7 @@ import com.echsylon.kraken.internal.CallCounter;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class DepositMethodsRequestBuilder extends RequestBuilder<DepositMethod[]> {
+public class DepositMethodsRequestBuilder extends RequestBuilder<DepositMethod[], DepositMethodsRequestBuilder> {
 
     /**
      * Creates a new request builder.

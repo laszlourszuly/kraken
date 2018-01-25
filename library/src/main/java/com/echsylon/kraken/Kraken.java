@@ -1,7 +1,7 @@
 package com.echsylon.kraken;
 
-import com.echsylon.blocks.network.OkHttpNetworkClient;
 import com.echsylon.kraken.internal.CallCounter;
+import com.echsylon.kraken.internal.NetworkClient;
 import com.echsylon.kraken.request.AccountBalanceRequestBuilder;
 import com.echsylon.kraken.request.AddOrderRequestBuilder;
 import com.echsylon.kraken.request.AssetInfoRequestBuilder;
@@ -53,20 +53,18 @@ public class Kraken {
      * @param cacheSizeBytes The max number of bytes to allocate to caching.
      */
     public static void setupCache(final File cacheDirectory, final int cacheSizeBytes) {
-        OkHttpNetworkClient.settings(
-                new OkHttpNetworkClient.Settings(
-                        cacheDirectory,
-                        cacheSizeBytes,
-                        false,          // Don't follow http -> http redirects
-                        false));        // Don't follow https -> http redirects
+        NetworkClient.settings(new NetworkClient.Settings(
+                cacheDirectory,
+                cacheSizeBytes,
+                false,          // Don't follow http -> http redirects
+                false));        // Don't follow https -> http redirects
     }
 
     /**
      * Initiate the automatic call rate limit management.
      *
-     * @param tier The tier that decides which call rate limits to apply. Note
-     *             that the server has the last say regarding what tier the
-     *             account actually has.
+     * @param tier The tier that decides which call rate limits to apply. Note that the server has
+     *             the last say regarding what tier the account actually has.
      */
     public static void setCallRateLimit(int tier) {
         callCounter = new CallCounter(tier);
@@ -124,8 +122,8 @@ public class Kraken {
      * Retrieves the current server time. This is to aid in approximating the
      * skew time between the server and client.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public ServerTimeRequestBuilder getServerTime() {
         return new ServerTimeRequestBuilder(callCounter, baseUrl, key, secret);
@@ -135,8 +133,8 @@ public class Kraken {
      * Retrieves information about supported currency assets. See API
      * documentation on supported asset formats.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public AssetInfoRequestBuilder getAssetInfo() {
         return new AssetInfoRequestBuilder(callCounter, baseUrl, key, secret);
@@ -146,8 +144,8 @@ public class Kraken {
      * Retrieves information about tradable asset pairs. See API documentation
      * on supported asset pair formats.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public TradableAssetPairsRequestBuilder getTradableAssetPairs() {
         return new TradableAssetPairsRequestBuilder(callCounter, baseUrl, key, secret);
@@ -158,8 +156,8 @@ public class Kraken {
      * The user is expected to provide at least one asset pair.
      *
      * @param pairs The asset pairs to fetch information on.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public TickerInfoRequestBuilder getTickerInformation(final String... pairs) {
         return new TickerInfoRequestBuilder(callCounter, baseUrl, key, secret)
@@ -171,8 +169,8 @@ public class Kraken {
      * asset pair. The user is expected to provide at least one asset pair.
      *
      * @param pair The single asset pair to get information for.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public OhlcDataRequestBuilder getOhlcData(final String pair) {
         return new OhlcDataRequestBuilder(callCounter, baseUrl, key, secret)
@@ -184,8 +182,8 @@ public class Kraken {
      * to provide at least one asset pair.
      *
      * @param pair The asset pair to get market depth for.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public OrderBookRequestBuilder getOrderBook(final String pair) {
         return new OrderBookRequestBuilder(callCounter, baseUrl, key, secret)
@@ -197,8 +195,8 @@ public class Kraken {
      * least one asset pair.
      *
      * @param pair The asset pair to get data for.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public RecentTradesRequestBuilder getRecentTrades(final String pair) {
         return new RecentTradesRequestBuilder(callCounter, baseUrl, key, secret)
@@ -210,8 +208,8 @@ public class Kraken {
      * The user is expected to provide at least one asset pair.
      *
      * @param pair The asset pair to get information for.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public RecentSpreadRequestBuilder getRecentSpreadData(final String pair) {
         return new RecentSpreadRequestBuilder(callCounter, baseUrl, key, secret)
@@ -223,8 +221,8 @@ public class Kraken {
     /**
      * Retrieves the account balance for all associated assets.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public AccountBalanceRequestBuilder getAccountBalance() {
         return new AccountBalanceRequestBuilder(callCounter, baseUrl, key, secret);
@@ -233,8 +231,8 @@ public class Kraken {
     /**
      * Retrieves the trade balance of an asset.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public TradeBalanceRequestBuilder getTradeBalance() {
         return new TradeBalanceRequestBuilder(callCounter, baseUrl, key, secret);
@@ -243,8 +241,8 @@ public class Kraken {
     /**
      * Retrieves information about any open orders.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public OpenOrdersRequestBuilder getOpenOrders() {
         return new OpenOrdersRequestBuilder(callCounter, baseUrl, key, secret);
@@ -253,8 +251,8 @@ public class Kraken {
     /**
      * Retrieves information about any closed orders.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public ClosedOrdersRequestBuilder getClosedOrders() {
         return new ClosedOrdersRequestBuilder(callCounter, baseUrl, key, secret);
@@ -264,10 +262,10 @@ public class Kraken {
      * Retrieves information about any particular order(s). The user is expected
      * to provide at least one transaction id.
      *
-     * @param transactionIds Transaction ids of the orders to get info about. 20
-     *                       max, at least one is required.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @param transactionIds Transaction ids of the orders to get info about. 20 max, at least one
+     *                       is required.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public QueryOrdersRequestBuilder queryOrdersInfo(final String... transactionIds) {
         return new QueryOrdersRequestBuilder(callCounter, baseUrl, key, secret)
@@ -277,8 +275,8 @@ public class Kraken {
     /**
      * Retrieves trades history
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public TradeHistoryRequestBuilder getTradesHistory() {
         return new TradeHistoryRequestBuilder(callCounter, baseUrl, key, secret);
@@ -288,10 +286,10 @@ public class Kraken {
      * Retrieves information about any particular trades(s). The user is
      * expected to provide at least one transaction id.
      *
-     * @param transactionIds Transaction ids of the orders to get info about. 20
-     *                       max, at least one is required.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @param transactionIds Transaction ids of the orders to get info about. 20 max, at least one
+     *                       is required.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public QueryTradesRequestBuilder queryTradesInfo(final String... transactionIds) {
         return new QueryTradesRequestBuilder(callCounter, baseUrl, key, secret)
@@ -301,8 +299,8 @@ public class Kraken {
     /**
      * Retrieves information about any open positions
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public OpenPositionsRequestBuilder getOpenPositions() {
         return new OpenPositionsRequestBuilder(callCounter, baseUrl, key, secret);
@@ -311,8 +309,8 @@ public class Kraken {
     /**
      * Retrieves information about the ledgers.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public LedgersRequestBuilder getLedgersInfo() {
         return new LedgersRequestBuilder(callCounter, baseUrl, key, secret);
@@ -323,8 +321,8 @@ public class Kraken {
      * expected to provide at least one ledger id.
      *
      * @param ledgerIds Id of ledgers to get. 20 max, at least one is required.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public QueryLedgersRequestBuilder queryLedgers(final String... ledgerIds) {
         return new QueryLedgersRequestBuilder(callCounter, baseUrl, key, secret)
@@ -334,8 +332,8 @@ public class Kraken {
     /**
      * Retrieves information about the current trade volumes.
      *
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public TradeVolumeRequestBuilder getTradeVolume() {
         return new TradeVolumeRequestBuilder(callCounter, baseUrl, key, secret);
@@ -350,8 +348,8 @@ public class Kraken {
      * @param type      The type of transaction (buy/sell).
      * @param orderType The of order (market, limit, etc).
      * @param price     The amount of funds to move with the order.
-     * @return A request builder object to configure the request and any client
-     * side cache metrics with, and to attach any callback implementations to.
+     * @return A request builder object to configure the request and any client side cache metrics
+     * with, and to attach any callback implementations to.
      */
     public AddOrderRequestBuilder addStandardOrder(final String pair,
                                                    final String type,
@@ -368,8 +366,8 @@ public class Kraken {
      * Cancels an open order.
      *
      * @param id The transaction or user reference id of the order(s) to close.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public CancelOrderRequestBuilder cancelOpenOrder(final String id) {
         return new CancelOrderRequestBuilder(callCounter, baseUrl, key, secret)
@@ -381,8 +379,8 @@ public class Kraken {
     /**
      * Retrieves available funding methods for a currency (defaults to ZUSD).
      *
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public DepositMethodsRequestBuilder getDepositMethods() {
         return new DepositMethodsRequestBuilder(callCounter, baseUrl, key, secret);
@@ -393,8 +391,8 @@ public class Kraken {
      *
      * @param asset  The deposit asset.
      * @param method The name of the deposit method.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public DepositAddressesRequestBuilder getDepositAddresses(final String asset,
                                                               final String method) {
@@ -407,8 +405,8 @@ public class Kraken {
      * Retrieves information on recent deposit statuses.
      *
      * @param asset The deposit asset.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public DepositStatusesRequestBuilder getDepositStatuses(final String asset) {
         return new DepositStatusesRequestBuilder(callCounter, baseUrl, key, secret)
@@ -421,8 +419,8 @@ public class Kraken {
      * @param asset    The asset to withdraw.
      * @param receiver The receiving key of the withdrawal.
      * @param amount   The amount of assets to withdraw.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public WithdrawInfoRequestBuilder getWithdrawInfo(final String asset,
                                                       final String receiver,
@@ -437,8 +435,8 @@ public class Kraken {
      * Retrieves information about recent withdrawal statuses.
      *
      * @param asset The withdrawal asset.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public WithdrawStatusesRequestBuilder getWithdrawStatuses(final String asset) {
         return new WithdrawStatusesRequestBuilder(callCounter, baseUrl, key, secret)
@@ -451,8 +449,8 @@ public class Kraken {
      * @param asset    The asset to withdraw.
      * @param receiver The receiving key of the withdrawal.
      * @param amount   The amount of assets to withdraw.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public WithdrawRequestBuilder withdrawFunds(final String asset,
                                                 final String receiver,
@@ -468,8 +466,8 @@ public class Kraken {
      * cancellation can't be guaranteed.
      *
      * @param referenceId The reference id of the withdrawal to cancel.
-     * @return A request builder object to configure any client side cache
-     * metrics with and to attach any callback implementations to.
+     * @return A request builder object to configure any client side cache metrics with and to
+     * attach any callback implementations to.
      */
     public WithdrawCancellationRequestBuilder requestWithdrawCancellation(final String referenceId) {
         return new WithdrawCancellationRequestBuilder(callCounter, baseUrl, key, secret)

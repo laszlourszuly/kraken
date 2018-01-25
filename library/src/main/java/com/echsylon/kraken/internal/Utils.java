@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.util.Base64;
 
 import com.annimon.stream.Stream;
-import com.echsylon.blocks.network.NetworkClient;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -20,9 +20,25 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * This class provides internal helper functions.
+ * THIS IS NOT THE API YOU'RE LOOKING FOR!
+ *
+ * This class provides internal helper functions. The API of it may and will most likely change
+ * frequently without any further notice. Although the methods are public you should not use them.
  */
 public final class Utils {
+
+    /**
+     * Tries to close a Closeable, consuming any errors without notifying the caller.
+     *
+     * @param closeable The Closeable to close.
+     */
+    public static void closeSilently(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (NullPointerException | IOException e) {
+            // Consume the exception silently.
+        }
+    }
 
     /**
      * Joins any provided non-empty string fragments into a comma separated
@@ -117,8 +133,7 @@ public final class Utils {
      * array. Invalid byte arrays (like null pointers) are ignored.
      *
      * @param bytes The byte arrays to concatenate.
-     * @return The resulting byte array (may be empty) or null if the input is
-     * null.
+     * @return The resulting byte array (may be empty) or null if the input is null.
      */
     public static byte[] concat(byte[]... bytes) {
         return bytes != null ?
@@ -222,11 +237,10 @@ public final class Utils {
      * Kraken API documentation for details.
      *
      * @param nonce The request nonce. Ignored if null.
-     * @param data  The actual key value pairs to build the message from. Even
-     *              positions are treated as keys and odd positions as values.
-     *              Any null pointer key or value will render the key/value pair
-     *              invalid and hence ignored. Any trailing single keys will
-     *              also be ignored.
+     * @param data  The actual key value pairs to build the message from. Even positions are treated
+     *              as keys and odd positions as values. Any null pointer key or value will render
+     *              the key/value pair invalid and hence ignored. Any trailing single keys will also
+     *              be ignored.
      * @return The prepared and encoded Kraken message.
      */
     public static String composeMessage(final String nonce,
@@ -257,8 +271,8 @@ public final class Utils {
      * @param path    The request path.
      * @param nonce   The request nonce that was used for the message.
      * @param message The request message
-     * @return The Kraken request signature headers. Null if no path is given or
-     * an empty list if no nonce is given.
+     * @return The Kraken request signature headers. Null if no path is given or an empty list if no
+     * nonce is given.
      */
     public static List<NetworkClient.Header> generateSignatureHeaders(final String key,
                                                                       final byte[] secret,

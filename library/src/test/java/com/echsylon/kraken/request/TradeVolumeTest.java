@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.dto.TradeVolume;
 
 import org.junit.After;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -64,11 +63,10 @@ public class TradeVolumeTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        TradeVolume result =
-                ((DefaultRequest<TradeVolume>) getKrakenInstance(key, secret)
-                        .getTradeVolume()
-                        .enqueue())
-                        .get(1, SECONDS);
+        TradeVolume result = getKrakenInstance(key, secret)
+                .getTradeVolume()
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.currency, is("ZUSD"));
         assertThat(result.volume, is("146820.7852"));

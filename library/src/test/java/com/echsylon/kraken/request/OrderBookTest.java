@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.Dictionary;
 import com.echsylon.kraken.dto.Depth;
 
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertThat;
  * Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -51,11 +50,10 @@ public class OrderBookTest {
                         "    ['271.07985','2.750',1503523300]," +
                         "    ['271.00001','1.157',1503523300]]}}}");
 
-        Dictionary<Depth> result =
-                ((DefaultRequest<Dictionary<Depth>>) getKrakenInstance()
-                        .getOrderBook(null)
-                        .enqueue())
-                        .get(1, SECONDS);
+        Dictionary<Depth> result = getKrakenInstance()
+                .getOrderBook(null)
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.size(), is(1));
 

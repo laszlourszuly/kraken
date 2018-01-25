@@ -1,12 +1,9 @@
 package com.echsylon.kraken.request;
 
-import com.echsylon.blocks.callback.DefaultRequest;
-import com.echsylon.blocks.callback.Request;
-import com.echsylon.blocks.network.NetworkClient;
-import com.echsylon.blocks.network.OkHttpNetworkClient;
 import com.echsylon.kraken.KrakenRequestException;
 import com.echsylon.kraken.internal.CallCounter;
 import com.echsylon.kraken.internal.KrakenTypeAdapterFactory;
+import com.echsylon.kraken.internal.NetworkClient;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -36,8 +33,7 @@ import static com.echsylon.kraken.internal.Utils.isPrivateRequest;
  * by the super class as a protected field, when implementing {@code enqueue()}
  * in order to make use of any cache configuration made by the caller.
  */
-public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedRequestBuilder<RequestBuilder<T>> {
-
+abstract class RequestBuilder<RESPONSE_TYPE, CONCRETE_IMPLEMENTATION extends RequestBuilder> {
     /**
      * INTERNAL USE ONLY!
      * <p>
@@ -53,7 +49,9 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
         private T result;
     }
 
+
     protected final HashMap<String, String> data;
+
     private final String method;
     private final String baseUrl;
     private final String path;
@@ -64,6 +62,10 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
     private final Type typeOfResult;
     private final CallCounter callCounter;
 
+    private int maxStaleDuration;
+    private int forcedCacheDuration;
+    private int maybeForcedCacheDuration;
+
 
     protected RequestBuilder(final int cost,
                              final CallCounter callCounter,
@@ -73,6 +75,10 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
                              final String method,
                              final String path,
                              final Type typeOfResult) {
+
+        this.maxStaleDuration = 0;
+        this.forcedCacheDuration = 0;
+        this.maybeForcedCacheDuration = 0;
 
         this.cost = cost;
         this.callCounter = callCounter;
@@ -85,14 +91,53 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
         this.data = new HashMap<>();
     }
 
+    /**
+     * Sets a forced cache age for a success response to this request. This
+     * cache age will override any cache metrics provided by the server.
+     *
+     * @param seconds The max age in seconds.
+     * @return This builder object, allowing method chaining.
+     */
+    @SuppressWarnings("unchecked")
+    public CONCRETE_IMPLEMENTATION hardCache(int seconds) {
+        forcedCacheDuration = seconds;
+        return (CONCRETE_IMPLEMENTATION) this;
+    }
+
+    /**
+     * Sets an optional cache age for a success response to this request.
+     * This cache age will only be honored if the server doesn't provide any
+     * cache metrics.
+     *
+     * @param seconds The max age in seconds.
+     * @return This builder object, allowing method chaining.
+     */
+    @SuppressWarnings("unchecked")
+    public CONCRETE_IMPLEMENTATION softCache(int seconds) {
+        maybeForcedCacheDuration = seconds;
+        return (CONCRETE_IMPLEMENTATION) this;
+    }
+
+    /**
+     * Sets a max age of expired cache entries during which they will still
+     * be accepted.
+     *
+     * @param seconds The max age in seconds.
+     * @return This builder object, allowing method chaining.
+     */
+    @SuppressWarnings("unchecked")
+    public CONCRETE_IMPLEMENTATION maxStale(int seconds) {
+        maxStaleDuration = seconds;
+        return (CONCRETE_IMPLEMENTATION) this;
+    }
 
     /**
      * Creates and enqueues the actual request.
      *
      * @return A request object to attach any callback implementations to.
      */
-    public Request<T> enqueue() {
-        return new DefaultRequest<>(() -> {
+    public Request<RESPONSE_TYPE> enqueue() {
+        return new Request<>(() -> {
             // Ensure we don't exceed our call rate limit.
             if (callCounter != null)
                 callCounter.allocate(cost);
@@ -115,12 +160,16 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
                     String.format("%s%s?%s", baseUrl, path, message) :
                     String.format("%s%s", baseUrl, path);
 
-            // Perform the actual request (the network client stems from
-            // CachedRequestBuilder (extended by RequestBuilder).
-            byte[] responseBytes = okHttpNetworkClient.execute(uri, method, headers, payload, mime);
+            // Perform the actual network request.
+            byte[] responseBytes = new NetworkClient(
+                    maxStaleDuration,
+                    forcedCacheDuration,
+                    maybeForcedCacheDuration)
+                    .execute(uri, method, headers, payload, mime);
+
             String responseJson = asString(responseBytes);
             Type type = TypeToken.getParameterized(Response.class, typeOfResult).getType();
-            Response<T> response = new GsonBuilder()
+            Response<RESPONSE_TYPE> response = new GsonBuilder()
                     .registerTypeAdapterFactory(new KrakenTypeAdapterFactory())
                     .create()
                     .fromJson(responseJson, type);
@@ -134,6 +183,5 @@ public abstract class RequestBuilder<T> extends OkHttpNetworkClient.CachedReques
             return response.result;
         });
     }
-
 
 }

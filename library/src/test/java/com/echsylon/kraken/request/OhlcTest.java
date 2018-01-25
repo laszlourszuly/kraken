@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.Dictionary;
 import com.echsylon.kraken.dto.Ohlc;
 
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * These test cases will test the "OHLC" feature of the Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a
  * result is produced.
  */
@@ -53,11 +52,10 @@ public class OhlcTest {
                         "   616]]," +
                         " 'last': 1503403200}}");
 
-        Dictionary<Ohlc[]> result =
-                ((DefaultRequest<Dictionary<Ohlc[]>>) getKrakenInstance()
-                        .getOhlcData(null)
-                        .enqueue())
-                        .get(1, SECONDS);
+        Dictionary<Ohlc[]> result = getKrakenInstance()
+                .getOhlcData(null)
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503403200"));

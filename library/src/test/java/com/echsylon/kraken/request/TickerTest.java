@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.Dictionary;
 import com.echsylon.kraken.dto.Ticker;
 
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * These test cases will test the "ticker" feature of the Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a
  * result is produced.
  */
@@ -53,11 +52,10 @@ public class TickerTest {
                         "  'h': ['17','18']," +
                         "  'o': '19'}}}");
 
-        Dictionary<Ticker> result =
-                ((DefaultRequest<Dictionary<Ticker>>) getKrakenInstance()
-                        .getTickerInformation()
-                        .enqueue())
-                        .get(1, SECONDS);
+        Dictionary<Ticker> result = getKrakenInstance()
+                .getTickerInformation()
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.size(), is(1));
 

@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class TradableAssetPairsRequestBuilder extends RequestBuilder<Dictionary<AssetPair>> {
+public class TradableAssetPairsRequestBuilder extends RequestBuilder<Dictionary<AssetPair>, TradableAssetPairsRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -40,8 +40,8 @@ public class TradableAssetPairsRequestBuilder extends RequestBuilder<Dictionary<
     /**
      * Sets the info level request property.
      *
-     * @param info The level of information to get. Options: "info" (all,
-     *             default), "leverage", "fees", "margin"
+     * @param info The level of information to get. Options: "info" (all, default), "leverage",
+     *             "fees", "margin"
      * @return This request builder instance allowing method call chaining.
      */
     public TradableAssetPairsRequestBuilder useInfo(final String info) {

@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.Dictionary;
 import com.echsylon.kraken.dto.Trade;
 
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertThat;
  * SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -48,11 +47,10 @@ public class RecentTradesTest {
                         "  ['271.49001','0.10043200',1503524391.3286,'b','l','']]," +
                         " 'last':'1503524404183915423'}}");
 
-        Dictionary<Trade[]> result =
-                ((DefaultRequest<Dictionary<Trade[]>>) getKrakenInstance()
-                        .getRecentTrades(null)
-                        .enqueue())
-                        .get(1, SECONDS);
+        Dictionary<Trade[]> result = getKrakenInstance()
+                .getRecentTrades(null)
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503524404183915423"));

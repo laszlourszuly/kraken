@@ -14,7 +14,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class TradeVolumeRequestBuilder extends RequestBuilder<TradeVolume> {
+public class TradeVolumeRequestBuilder extends RequestBuilder<TradeVolume, TradeVolumeRequestBuilder> {
 
     /**
      * Creates a new request builder.

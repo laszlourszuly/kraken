@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 
 import org.junit.After;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import static org.junit.Assert.assertThat;
  * Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a result
  * is produced.
  */
@@ -45,11 +44,10 @@ public class WithdrawCancellationTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        Boolean result =
-                ((DefaultRequest<Boolean>) getKrakenInstance(key, secret)
-                        .requestWithdrawCancellation("refid")
-                        .enqueue())
-                        .get(1, SECONDS);
+        Boolean result = getKrakenInstance(key, secret)
+                .requestWithdrawCancellation("refid")
+                .enqueue()
+                .get(1, SECONDS);
 
         assertThat(result, is(true));
     }

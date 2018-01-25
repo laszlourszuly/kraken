@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class AssetInfoRequestBuilder extends RequestBuilder<Dictionary<Asset>> {
+public class AssetInfoRequestBuilder extends RequestBuilder<Dictionary<Asset>, AssetInfoRequestBuilder> {
 
     /**
      * Creates a new request builder.

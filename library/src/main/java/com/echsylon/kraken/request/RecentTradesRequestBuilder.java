@@ -13,7 +13,7 @@ import com.google.gson.reflect.TypeToken;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class RecentTradesRequestBuilder extends RequestBuilder<Dictionary<Trade[]>> {
+public class RecentTradesRequestBuilder extends RequestBuilder<Dictionary<Trade[]>, RecentTradesRequestBuilder> {
 
     /**
      * Creates a new request builder.

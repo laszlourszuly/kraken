@@ -1,7 +1,6 @@
 package com.echsylon.kraken.request;
 
 import com.echsylon.atlantis.Atlantis;
-import com.echsylon.blocks.callback.DefaultRequest;
 import com.echsylon.kraken.dto.OrderAddReceipt;
 
 import org.junit.After;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * These test cases will test the "add order" feature of the Android Kraken SDK.
  * <p>
  * The tests will take advantage of the fact that the Kraken implementation
- * returns a {@code DefaultRequest} object. Since the {@code DefaultRequest}
+ * returns a {@code Request} object. Since the {@code Request}
  * class extends {@code FutureTask} we can block the test thread until a
  * result is produced.
  */
@@ -50,11 +49,10 @@ public class AddOrderTest {
         String key = "key";
         String secret = "c2VjcmV0";
 
-        OrderAddReceipt result =
-                ((DefaultRequest<OrderAddReceipt>) getKrakenInstance(key, secret)
-                        .addStandardOrder(null, null, null, null)
-                        .enqueue())
-                        .get(1, SECONDS);
+        OrderAddReceipt result = getKrakenInstance(key, secret)
+                .addStandardOrder(null, null, null, null)
+                .enqueue()
+                .get(1, SECONDS);
 
         OrderAddReceipt.Description description = result.description;
         assertThat(description.order, is("sell 1.00000000 ETHEUR @ limit 400.00000"));

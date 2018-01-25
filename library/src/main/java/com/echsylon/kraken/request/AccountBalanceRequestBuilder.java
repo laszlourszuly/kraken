@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class AccountBalanceRequestBuilder extends RequestBuilder<Dictionary<String>> {
+public class AccountBalanceRequestBuilder extends RequestBuilder<Dictionary<String>, AccountBalanceRequestBuilder> {
 
     /**
      * Creates a new request builder.

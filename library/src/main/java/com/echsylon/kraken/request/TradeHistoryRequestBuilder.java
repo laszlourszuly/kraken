@@ -14,7 +14,7 @@ import static com.echsylon.kraken.internal.Utils.asString;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeHistory>> {
+public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeHistory>, TradeHistoryRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -51,9 +51,8 @@ public class TradeHistoryRequestBuilder extends RequestBuilder<Dictionary<TradeH
     /**
      * Sets the trade type request property.
      *
-     * @param type The type of trades to get. Options: "all" (default), "any
-     *             position", "closed position", "closing position", "no
-     *             position".
+     * @param type The type of trades to get. Options: "all" (default), "any position", "closed
+     *             position", "closing position", "no position".
      * @return This request builder instance allowing method call chaining.
      */
     public TradeHistoryRequestBuilder useType(final String type) {

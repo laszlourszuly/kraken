@@ -10,7 +10,7 @@ import com.echsylon.kraken.internal.CallCounter;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance> {
+public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance, TradeBalanceRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -56,8 +56,7 @@ public class TradeBalanceRequestBuilder extends RequestBuilder<TradeBalance> {
     /**
      * Sets the base asset request property.
      *
-     * @param baseAssets The base asset to use when determining the balance.
-     *                   Defaults to "ZUSD".
+     * @param baseAssets The base asset to use when determining the balance. Defaults to "ZUSD".
      * @return This request builder instance allowing method call chaining.
      */
     public TradeBalanceRequestBuilder useBaseAsset(final String baseAssets) {

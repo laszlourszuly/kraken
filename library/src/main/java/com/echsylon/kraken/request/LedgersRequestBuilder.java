@@ -15,7 +15,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
+public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>, LedgersRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -63,8 +63,8 @@ public class LedgersRequestBuilder extends RequestBuilder<Dictionary<Ledger>> {
     /**
      * Sets the trade type request property.
      *
-     * @param type Type of ledger to get. Options: "all" (default), "deposit",
-     *             "withdrawal", "trade", "margin".
+     * @param type Type of ledger to get. Options: "all" (default), "deposit", "withdrawal",
+     *             "trade", "margin".
      * @return This request builder instance allowing method call chaining.
      */
     public LedgersRequestBuilder useType(final String type) {

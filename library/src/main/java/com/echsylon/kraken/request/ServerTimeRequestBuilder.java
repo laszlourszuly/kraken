@@ -11,7 +11,7 @@ import com.echsylon.kraken.internal.CallCounter;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class ServerTimeRequestBuilder extends RequestBuilder<Time> {
+public class ServerTimeRequestBuilder extends RequestBuilder<Time, ServerTimeRequestBuilder> {
 
     /**
      * Creates a new request builder.

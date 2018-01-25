@@ -16,7 +16,7 @@ import static com.echsylon.kraken.internal.Utils.join;
  * https://www.kraken.com/help/api
  */
 @SuppressWarnings("WeakerAccess")
-public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHistory>> {
+public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHistory>, QueryTradesRequestBuilder> {
 
     /**
      * Creates a new request builder.
@@ -53,8 +53,8 @@ public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHi
     /**
      * Sets the include trades request property.
      *
-     * @param includePositionTrades Whether to include trades related to
-     *                              position. Defaults to false.
+     * @param includePositionTrades Whether to include trades related to position. Defaults to
+     *                              false.
      * @return This request builder instance allowing method call chaining.
      */
     public QueryTradesRequestBuilder useTradesFlag(final boolean includePositionTrades) {
@@ -65,8 +65,8 @@ public class QueryTradesRequestBuilder extends RequestBuilder<Dictionary<TradeHi
     /**
      * Sets the transaction ids request property.
      *
-     * @param transactionIds Transaction ids of the orders to get. 20 max, at
-     *                       least one is required.
+     * @param transactionIds Transaction ids of the orders to get. 20 max, at least one is
+     *                       required.
      * @return This request builder instance allowing method call chaining.
      */
     public QueryTradesRequestBuilder useTransactions(final String... transactionIds) {

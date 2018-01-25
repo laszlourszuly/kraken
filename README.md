@@ -102,7 +102,7 @@ privateKrakenClient
 Note that the secret needs to be provided in its Base64 encoded form, as presented when you create the corresponding API key in the Kraken Web UI.
 
 # Dependencies
-This Kraken API client has only one direct dependency; the [Blocks network abstraction layer](https://github.com/echsylon/blocks-network). That library in turn depends on:
+This Kraken API client depends on:
 
 * [Square okhttp](https://github.com/square/okhttp) for networking
 * [Google gson](https://github.com/google/gson) for JSON parsing

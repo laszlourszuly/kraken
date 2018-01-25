@@ -1,7 +1,7 @@
 // 3rd party plugins definition
 plugins {
     id 'com.github.kt3k.coveralls' version '2.5.0-x'
-    id 'me.tatarka.retrolambda' version '3.4.0'
+    id 'me.tatarka.retrolambda' version '3.7.0'
     id 'com.jfrog.bintray' version '1.7.3'
 }
 
@@ -14,12 +14,12 @@ retrolambda {
 
 // Android configuration
 android {
-    compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultPublishConfig 'release'
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode prepareVersionCode()
         versionName prepareVersionName()
         project.archivesBaseName = 'kraken'
@@ -41,13 +41,13 @@ android {
 }
 
 dependencies {
-    compile 'com.echsylon.blocks:network:2.2.4'
+    implementation 'com.echsylon.blocks:network:2.2.4'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:3.8.0'
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile 'org.robolectric:robolectric:3.4.2'
-    testCompile 'com.echsylon.atlantis:atlantis:2.4.1'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.9.0'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'org.robolectric:robolectric:3.6.1'
+    testImplementation 'com.echsylon.atlantis:atlantis:2.4.2'
 }
 
 // Custom archive build configurations

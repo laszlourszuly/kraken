@@ -5,17 +5,17 @@ android.libraryVariants.all { variant ->
 
 
     // Force AAR archives to have the same naming conventions as the JAR's.
-    variant.outputs.each { output ->
-        if (output.outputFile.name.endsWith('.aar')) {
-            output.outputFile = file("${output.outputFile.parent}/${subfolder}/${template}.aar")
+    variant.outputs.all { output ->
+        if (outputFileName.endsWith('.aar')) {
+            outputFileName = file("${buildDir}/outputs/aar/${subfolder}/${template}.aar")
         }
     }
-    
+
     // Compile javadoc output (HTML file tree)
     task("javadoc${name}", type: Javadoc) {
         source = android.sourceSets.main.java.srcDirs
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        classpath += configurations.compile
+        classpath += project.files(variant.javaCompile.classpath.files)
         options {
             links 'http://docs.oracle.com/javase/8/docs/api/'
             linksOffline 'http://d.android.com/reference', "${android.sdkDirectory}/docs/reference"

@@ -52,7 +52,7 @@ public class DepositMethodsTest {
         DepositMethod[] result = getKrakenInstance(key, secret)
                 .getDepositMethods()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.length, is(1));
         assertThat(result[0].method, is("Ether (Hex)"));

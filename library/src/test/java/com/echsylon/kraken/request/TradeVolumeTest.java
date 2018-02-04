@@ -66,7 +66,7 @@ public class TradeVolumeTest {
         TradeVolume result = getKrakenInstance(key, secret)
                 .getTradeVolume()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.currency, is("ZUSD"));
         assertThat(result.volume, is("146820.7852"));

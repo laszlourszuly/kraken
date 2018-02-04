@@ -47,7 +47,7 @@ public class WithdrawCancellationTest {
         Boolean result = getKrakenInstance(key, secret)
                 .requestWithdrawCancellation("refid")
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result, is(true));
     }

@@ -75,7 +75,7 @@ public class OpenOrdersTest {
         Dictionary<Order> result = getKrakenInstance(key, secret)
                 .getOpenOrders()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is(nullValue()));

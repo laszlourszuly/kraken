@@ -57,7 +57,7 @@ public class TradeBalanceTest {
         TradeBalance result = getKrakenInstance(key, secret)
                 .getTradeBalance()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.equivalentBalance, is("21.1589470825"));
         assertThat(result.tradeBalance, is("21.1589468600"));

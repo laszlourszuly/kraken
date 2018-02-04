@@ -55,7 +55,7 @@ public class OhlcTest {
         Dictionary<Ohlc[]> result = getKrakenInstance()
                 .getOhlcData(null)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503403200"));

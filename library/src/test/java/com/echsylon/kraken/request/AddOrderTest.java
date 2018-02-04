@@ -52,7 +52,7 @@ public class AddOrderTest {
         OrderAddReceipt result = getKrakenInstance(key, secret)
                 .addStandardOrder(null, null, null, null)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         OrderAddReceipt.Description description = result.description;
         assertThat(description.order, is("sell 1.00000000 ETHEUR @ limit 400.00000"));

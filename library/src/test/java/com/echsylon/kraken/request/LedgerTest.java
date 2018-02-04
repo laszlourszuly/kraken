@@ -60,7 +60,7 @@ public class LedgerTest {
         Dictionary<Ledger> result = getKrakenInstance(key, secret)
                 .getLedgersInfo()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.count, is(521));

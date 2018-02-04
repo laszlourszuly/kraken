@@ -64,7 +64,7 @@ public class TradeHistoryTest {
         Dictionary<TradeHistory> result = getKrakenInstance(key, secret)
                 .getTradesHistory()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.count, is(252));

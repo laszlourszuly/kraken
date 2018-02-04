@@ -55,7 +55,7 @@ public class TickerTest {
         Dictionary<Ticker> result = getKrakenInstance()
                 .getTickerInformation()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
 

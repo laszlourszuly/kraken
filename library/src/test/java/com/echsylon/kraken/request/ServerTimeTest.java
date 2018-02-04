@@ -47,7 +47,7 @@ public class ServerTimeTest {
         Time time = getKrakenInstance()
                 .getServerTime()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(time.unixtime, is(0L));
         assertThat(time.rfc1123, is(""));

@@ -52,7 +52,7 @@ public class WithdrawInfoTest {
         WithdrawInfo result = getKrakenInstance(key, secret)
                 .getWithdrawInfo("asset", "key", 1.0f)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.method, is("Ether"));
         assertThat(result.limit, is("1.0000000000"));

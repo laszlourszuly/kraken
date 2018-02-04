@@ -50,7 +50,7 @@ public class RecentSpreadTest {
         Dictionary<Spread[]> result = getKrakenInstance()
                 .getRecentSpreadData(null)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is("1503526481"));

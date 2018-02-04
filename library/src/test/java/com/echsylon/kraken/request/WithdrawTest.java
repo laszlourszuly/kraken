@@ -48,7 +48,7 @@ public class WithdrawTest {
         WithdrawReceipt result = getKrakenInstance(key, secret)
                 .withdrawFunds("asset", "key", 1.0f)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.referenceId, is("AABCDEF-123456-GHIJKL"));
     }

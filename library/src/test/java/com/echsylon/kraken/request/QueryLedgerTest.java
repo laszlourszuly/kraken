@@ -59,7 +59,7 @@ public class QueryLedgerTest {
         Dictionary<Ledger> result = getKrakenInstance(key, secret)
                 .queryLedgers()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
         assertThat(result.last, is(nullValue()));

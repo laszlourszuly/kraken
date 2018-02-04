@@ -50,7 +50,7 @@ public class AssetTest {
         Dictionary<Asset> result = getKrakenInstance()
                 .getAssetInfo()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(1));
 

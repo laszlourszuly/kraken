@@ -50,7 +50,7 @@ public class CancelOrderTest {
         OrderCancelReceipt result = getKrakenInstance(key, secret)
                 .cancelOpenOrder(null)
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.count, is(1));
         assertThat(result.pending, is(true));

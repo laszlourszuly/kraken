@@ -51,7 +51,7 @@ public class DepositAddressesTest {
         DepositAddress[] result = getKrakenInstance(key, secret)
                 .getDepositAddresses("asset", "method")
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.length, is(1));
         assertThat(result[0].address, is("0x0000000000000000000000000000000000000000"));

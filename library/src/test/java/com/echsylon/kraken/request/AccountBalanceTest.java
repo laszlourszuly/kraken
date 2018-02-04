@@ -50,7 +50,7 @@ public class AccountBalanceTest {
         Dictionary<String> result = getKrakenInstance(key, secret)
                 .getAccountBalance()
                 .enqueue()
-                .get(1, SECONDS);
+                .get(10, SECONDS);
 
         assertThat(result.size(), is(2));
         assertThat(result.get("ZEUR"), is("0.0000"));

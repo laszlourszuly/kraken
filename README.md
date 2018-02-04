@@ -7,10 +7,10 @@ This third party library aims to wrap the official [Kraken Exchange API](https:/
 You simply add the below dependency to your Android project (preferrably picking the latest version):
 
 ```javascript
-compile 'com.echsylon.kraken:kraken:0.4.0'
+implementation 'com.echsylon.kraken:kraken:0.4.2'
 ```
 
-You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. The returned `RequestBuilder` will allow you to add any optional query data before you finally enqueue the request. The `enqueue()` call will append the request to the internal request queue and return a callback interface to which you can attach any (optional) result listeners. There is no guarantee that the requests will be executed in the order they are enqueued.
+You can then instantiate a Kraken API client and start requesting. The client will abstract away any and all queueing and asynchronous http request handling for you. The returned `RequestBuilder` will allow you to add any optional query data before you finally enqueue the request. The `enqueue()` call will append the request to the internal request queue and return a callback interface to which you can attach any optional result listeners. There is no guarantee that the requests will be executed in the order they are enqueued (as they are processed by several threads which, temporarilly, may experience different loads).
 
 ```java
 Kraken krakenClient = new Kraken();

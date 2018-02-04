@@ -18,6 +18,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -109,14 +111,14 @@ public class KrakenTest {
             for (int i = 0; i < 15; i++)
                 kraken.getServerTime().enqueue();
 
-            long startSeconds = System.currentTimeMillis() / 1000L;
+            long start = System.currentTimeMillis();
 
             kraken.getServerTime()
                     .enqueue()
                     .get(4, SECONDS);
 
-            long stopSeconds = System.currentTimeMillis() / 1000L;
-            assertThat(stopSeconds - startSeconds, is(3L));
+            long stop = System.currentTimeMillis();
+            assertThat(stop - start, is(greaterThanOrEqualTo(3000L)));
         } finally {
             Kraken.clearCallRateLimit();
         }
@@ -133,16 +135,16 @@ public class KrakenTest {
             for (int i = 0; i < 15; i++)
                 kraken.getServerTime().enqueue();
 
-            Thread.sleep(3000);
+            Thread.sleep(3000L);
 
-            long startSeconds = System.currentTimeMillis() / 1000L;
+            long start = System.currentTimeMillis();
 
             kraken.getServerTime()
                     .enqueue()
                     .get(4, SECONDS);
 
-            long stopSeconds = System.currentTimeMillis() / 1000L;
-            assertThat(stopSeconds - startSeconds, is(0L));
+            long stop = System.currentTimeMillis();
+            assertThat(stop - start, is(lessThan(1000L)));
         } finally {
             Kraken.clearCallRateLimit();
         }
